@@ -4,9 +4,19 @@
 --
 -----------------------------------------------------------------------------------------
 
+-- requrie things
+local widget = require( "widget" ) -- require widget
+
+-- hide status bar
 display.setStatusBar( display.HiddenStatusBar)
 
-local widget = require( "widget" ) -- require widget we gonna use this for buttons
+------------------------------------------------------------------------------------------- box
+local scrollRect = display.newRect( 0, 0, display.contentWidth, 40)
+scrollRect:setFillColor( 1, 1, 1 )
+scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
+
+
+------------------------------------------------------------------------------------- buttons
 
 --Create six buttons
 
@@ -24,8 +34,15 @@ end
 local AboutApp = widget.newButton(
     {
         id = "AboutApp",
-        label = "About App",
-        onEvent = AboutAppButtonEvent
+        label = "?",
+        onEvent = AboutAppButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
+        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
 )
 
@@ -43,7 +60,14 @@ local Quit = widget.newButton(
     {
         id = "Quit",
         label = "X",
-        onEvent = QuitButtonEvent
+        onEvent = QuitButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
 )
 --UploadFile
@@ -61,7 +85,14 @@ local UploadFile = widget.newButton(
     {
         id = "UploadFile",
         label = "UploadFile",
-        onEvent = UploadFileButtonEvent
+        onEvent = UploadFileButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
+        strokeColor = { default={0,0,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
 )
 --Submit
@@ -79,7 +110,14 @@ local Submit = widget.newButton(
     {
         id = "Submit",
         label = "Submit",
-        onEvent = SubmitButtonEvent
+        onEvent = SubmitButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
+        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
 )
 --AlgorithmLeft
@@ -121,17 +159,25 @@ local AlgorithmRight = widget.newButton(
 
 
 --AboutApp button placement 
-AboutApp.x =  display.contentCenterX - 50
-AboutApp.y = display.contentCenterY - 220
+AboutApp.x = display.contentCenterX -120
+AboutApp.y = display.contentCenterY -460
 
 --Quit button placement
-Quit.x =  display.contentCenterX +50
-Quit.y = display.contentCenterY - 220
+Quit.x = display.contentCenterX +120
+Quit.y = display.contentCenterY -460
 
 --AlgorithmLeft button placement
-AlgorithmLeft.x =  display.contentCenterX -30 
-AlgorithmLeft.y = display.contentHeight-30
+AlgorithmLeft.x = display.contentCenterX -120 
+AlgorithmLeft.y = display.contentHeight -60
 
 --AlgorithmRight button placement
-AlgorithmRight.x =  display.contentCenterX +30 
-AlgorithmRight.y = display.contentHeight-30
+AlgorithmRight.x = display.contentCenterX +120 
+AlgorithmRight.y = display.contentHeight -60
+
+--UploadFile button placement
+UploadFile.x = display.contentCenterX -115
+UploadFile.y = display.contentHeight -15
+
+--Submit button placement
+Submit.x = display.contentCenterX +115
+Submit.y = display.contentHeight -15
