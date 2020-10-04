@@ -1,4 +1,4 @@
------------------------------------------------------------------------------------------
+ -----------------------------------------------------------------------------------------
 --
 -- main.lua
 --
@@ -16,76 +16,60 @@ scrollRect:setFillColor( 1, 1, 1 )
 scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
 
 
-------------------------------------------------------------------------------------- buttons
-
---Create six buttons
-
---AboutApp
---Function to handle AboutApp button events
---this will need two different phases, one two open the about, and one to close it again
-local function AboutAppButtonEvent(event)
-  
+------------------------------------------------------------------------------------- button
+--rightButton
+--Function to handle rightButton button events
+--this will want to move to the next algorithm option in a list
+local function rightButtonEvent(event)
+ 
     if ("ended" == event.phase) then
-        print( "The AboutApp Button was pressed and released")
+        print( "The rightButton Button was pressed and released")
     end
 end
  
--- Create the AboutApp button widget
-local AboutApp = widget.newButton(
+-- Create the widget
+local rightButton = widget.newButton(
     {
-        id = "AboutApp",
-        label = "?",
-        onEvent = AboutAppButtonEvent,
-        shape = "roundedRect",
-        width = 50,
-        height = 40,
-        cornerRadius = 2,
-        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
-        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        id = "rightButton",
+        label = ">>",
+        onEvent = rightButtonEvent,
+        
     }
 )
 
---Quit
---Function to handle Quit button events
-local function QuitButtonEvent(event)
+--leftButton
+--Function to handle leftButton button events
+--this will want to move to the next algorithm option in a list
+local function leftButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The Quit Button was pressed and released")
+        print( "The leftButton Button was pressed and released")
     end
 end
- 
--- Create the Quit button widget
-local Quit = widget.newButton(
+-- Create the widget
+local leftButton = widget.newButton(
     {
-        id = "Quit",
-        label = "X",
-        onEvent = QuitButtonEvent,
-        shape = "roundedRect",
-        width = 50,
-        height = 40,
-        cornerRadius = 2,
-        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
-        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        id = "leftButton",
+        label = "<<",
+        onEvent = leftButtonEvent
     }
 )
---UploadFile
+
+--UploadFileButton
 --Function to handle UploadFile button events
 --this will want to upload a file into the project resources, and read in the data
-local function UploadFileButtonEvent(event)
+local function uploadButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The UploadFile Button was pressed and released")
     end
 end
- 
--- Create the UploadFile button widget
-local UploadFile = widget.newButton(
+-- Create the widget
+local uploadButton = widget.newButton(
     {
-        id = "UploadFile",
-        label = "UploadFile",
-        onEvent = UploadFileButtonEvent,
+        id = "uploadButton",
+        label = "Upload",
+        onEvent = uploadButtonEvent,
         shape = "roundedRect",
         width = 70,
         height = 40,
@@ -95,22 +79,22 @@ local UploadFile = widget.newButton(
         strokeWidth = 1
     }
 )
---Submit
---Function to handle Submit button events
+
+--submitButton
+--Function to handle submitButton button events
 -- this will want to apply the desired algorithm to the supplies data, and display the results on screen
-local function SubmitButtonEvent(event)
+local function submitButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The Submit Button was pressed and released")
     end
 end
- 
--- Create the Submit button widget
-local Submit = widget.newButton(
+-- Create the widget
+local submitButton = widget.newButton(
     {
-        id = "Submit",
+        id = "submitButton",
         label = "Submit",
-        onEvent = SubmitButtonEvent,
+        onEvent = submitButtonEvent,
         shape = "roundedRect",
         width = 70,
         height = 40,
@@ -120,64 +104,71 @@ local Submit = widget.newButton(
         strokeWidth = 1
     }
 )
---AlgorithmLeft
---Function to handle AlgorithmLeft button events
---this will want to move to the previous algorithm option in a list
-local function AlgorithmLeftButtonEvent(event)
- 
+
+--aboutButton
+--Function to handle AboutApp button events
+--this will need two different phases, one two open the about, and one to close it again
+local function aboutButtonEvent(event)
+  
     if ("ended" == event.phase) then
-        print( "The AlgorithmLeft Button was pressed and released")
+        print( "The AboutApp Button was pressed and released")
     end
 end
- 
--- Create the AlgorithmLeft button widget
-local AlgorithmLeft = widget.newButton(
+-- Create the widget
+local aboutButton = widget.newButton(
     {
-        id = "AlgorithmLeft",
-        label = "<<",
-        onEvent = AlgorithmLeftButtonEvent
-    }
-)
---AlgorithmRight
---Function to handle AlgorithmRight button events
---this will want to move to the next algorithm option in a list
-local function AlgorithmRightButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The AlgorithmRight Button was pressed and released")
-    end
-end
- 
--- Create the AlgorithmRight button widget
-local AlgorithmRight = widget.newButton(
-    {
-        id = "AlgorithmRight",
-        label = ">>",
-        onEvent = AlgorithmRightButtonEvent
+
+        id = "aboutButton",
+        label = "?",
+        onEvent = aboutButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
+        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
 )
 
+--QuitButton
+--Function to handle Quit button events
+local function quitButtonEvent(event)
+ 
+    if ("ended" == event.phase) then
+        print( "The Quit Button was pressed and released")
+    end
+end
 
---AboutApp button placement 
-AboutApp.x = display.contentCenterX -120
-AboutApp.y = display.contentCenterY -460
+-- Create the widget
+local quitButton = widget.newButton(
+    {
+        id = "quitButton",
+        label = "X",
+        onEvent = quitButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
+    }
+)
+quitButton.x =  display.contentCenterX +120
+quitButton.y = display.contentHeight -460
 
---Quit button placement
-Quit.x = display.contentCenterX +120
-Quit.y = display.contentCenterY -460
+aboutButton.x =  display.contentCenterX -120
+aboutButton.y = display.contentHeight -460
 
---AlgorithmLeft button placement
-AlgorithmLeft.x = display.contentCenterX -120 
-AlgorithmLeft.y = display.contentHeight -60
+uploadButton.x =  display.contentCenterX -115
+uploadButton.y = display.contentHeight -15
 
---AlgorithmRight button placement
-AlgorithmRight.x = display.contentCenterX +120 
-AlgorithmRight.y = display.contentHeight -60
+submitButton.x =  display.contentCenterX +115
+submitButton.y = display.contentHeight -15
 
---UploadFile button placement
-UploadFile.x = display.contentCenterX -115
-UploadFile.y = display.contentHeight -15
+rightButton.x =  display.contentCenterX +120
+rightButton.y = display.contentHeight -60
 
---Submit button placement
-Submit.x = display.contentCenterX +115
-Submit.y = display.contentHeight -15
+leftButton.x =  display.contentCenterX -120
+leftButton.y = display.contentHeight -60
