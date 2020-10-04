@@ -142,7 +142,7 @@ local aboutButton = widget.newButton(
 local function quitButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The Quit Button was pressed and released")
+        native.requestExit()
     end
 end
 
