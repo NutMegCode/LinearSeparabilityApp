@@ -8,7 +8,18 @@ local widget = require( "widget" ) -- require widget
 
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar)
-------------------------------------------------------------------------------------- events
+------------------------------------------------------------------------------------------- create Algorithm name
+local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
+scrollRect:setFillColor( 1, 1, 1 )
+scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
+algorithmDisplay = display.newText("Algorithm",display.contentCenterX ,display.contentHeight-60 ,"Arial", 20)
+algorithmDisplay: setFillColor(0,0,0,1)
+------------------------------------------------------------------------------------------- change Algorithm left
+------------------------------------------------------------------------------------------- change Algorithm right
+------------------------------------------------------------------------------------------- about program
+------------------------------------------------------------------------------------------- exit program
+
+------------------------------------------------------------------------------------------- events
 -- template
 local function handleButtonEvent( event )
  
@@ -30,7 +41,8 @@ end
 local function QuitButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The Quit Button was pressed and released")
+        native.requestExit()
+        print( "The Quit Button was pressed")
     end
 end
 
@@ -73,13 +85,7 @@ local function AlgorithmRightButtonEvent(event)
         print( "The AlgorithmRight Button was pressed and released")
     end
 end
-------------------------------------------------------------------------------------------- create Algorithm name
-local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
-scrollRect:setFillColor( 1, 1, 1 )
-scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
-algorithmDisplay = display.newText("Algorithm",display.contentCenterX ,display.contentHeight-60 ,"Arial", 20)
-algorithmDisplay: setFillColor(0,0,0,1)
-------------------------------------------------------------------------------------- create button
+------------------------------------------------------------------------------------------- create button
 -- Create the widget
 local buttonRight = widget.newButton(
     {
@@ -178,18 +184,14 @@ local buttonExit = widget.newButton(
         strokeWidth = 1
     }
 )
-------------------------------------------------------------------------------------- button placement
+------------------------------------------------------------------------------------------- button placement
 buttonExit.x =  display.contentCenterX +120; buttonExit.y = display.contentHeight -460
-
 buttonAbout.x =  display.contentCenterX -120; buttonAbout.y = display.contentHeight -460
-
 buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
-
 buttonSubmit.x =  display.contentCenterX +115; buttonSubmit.y = display.contentHeight-15
-
 buttonRight.x =  display.contentCenterX +115; buttonRight.y = display.contentHeight-60
-
 ButtonLeft.x =  display.contentCenterX -115; ButtonLeft.y = display.contentHeight-60
+
 
 
 
