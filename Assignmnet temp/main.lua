@@ -33,7 +33,7 @@ local function rightButtonEvent(event)
     end
 end
  
--- Create the widget
+-- Create the rightButton widget
 local rightButton = widget.newButton(
     {
         id = "rightButton",
@@ -52,7 +52,7 @@ local function leftButtonEvent(event)
         print( "The leftButton Button was pressed and released")
     end
 end
--- Create the widget
+-- Create the leftButton widget
 local leftButton = widget.newButton(
     {
         id = "leftButton",
@@ -70,7 +70,7 @@ local function uploadButtonEvent(event)
         print( "The UploadFile Button was pressed and released")
     end
 end
--- Create the widget
+-- Create the UploadFileButton widget
 local uploadButton = widget.newButton(
     {
         id = "uploadButton",
@@ -95,7 +95,7 @@ local function submitButtonEvent(event)
         print( "The Submit Button was pressed and released")
     end
 end
--- Create the widget
+-- Create the submitButton widget
 local submitButton = widget.newButton(
     {
         id = "submitButton",
@@ -120,7 +120,7 @@ local function aboutButtonEvent(event)
         print( "The AboutApp Button was pressed and released")
     end
 end
--- Create the widget
+-- Create the aboutButton widget
 local aboutButton = widget.newButton(
     {
 
@@ -146,7 +146,7 @@ local function quitButtonEvent(event)
     end
 end
 
--- Create the widget
+-- Create the QuitButton widget
 local quitButton = widget.newButton(
     {
         id = "quitButton",
