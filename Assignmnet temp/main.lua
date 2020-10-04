@@ -4,134 +4,124 @@
 --
 -----------------------------------------------------------------------------------------
 
+-- requrie things
+local widget = require( "widget" ) -- require widget
+
+-- hide status bar
 display.setStatusBar( display.HiddenStatusBar)
 
-local widget = require( "widget" ) -- require widget we gonna use this for buttons
+------------------------------------------------------------------------------------------- box
+local scrollRect = display.newRect( 0, 0, display.contentWidth, 40)
+scrollRect:setFillColor( 1, 1, 1 )
+scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
 
---Create six buttons
 
---AboutApp
---Function to handle AboutApp button events
---this will need two different phases, one two open the about, and one to close it again
-local function AboutAppButtonEvent(event)
-  
-    if ("ended" == event.phase) then
-        print( "The AboutApp Button was pressed and released")
+------------------------------------------------------------------------------------- button
+-- Function to handle button events
+local function handleButtonEvent( event )
+ 
+    if ( "ended" == event.phase ) then
+        print( "Button was pressed and released" )
     end
 end
  
--- Create the AboutApp button widget
-local AboutApp = widget.newButton(
+-- Create the widget
+local buttonRight = widget.newButton(
     {
-        id = "AboutApp",
-        label = "About App",
-        onEvent = AboutAppButtonEvent
-    }
-)
-
---Quit
---Function to handle Quit button events
-local function QuitButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The Quit Button was pressed and released")
-    end
-end
- 
--- Create the Quit button widget
-local Quit = widget.newButton(
-    {
-        id = "Quit",
-        label = "X",
-        onEvent = QuitButtonEvent
-    }
-)
---UploadFile
---Function to handle UploadFile button events
---this will want to upload a file into the project resources, and read in the data
-local function UploadFileButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The UploadFile Button was pressed and released")
-    end
-end
- 
--- Create the UploadFile button widget
-local UploadFile = widget.newButton(
-    {
-        id = "UploadFile",
-        label = "UploadFile",
-        onEvent = UploadFileButtonEvent
-    }
-)
---Submit
---Function to handle Submit button events
--- this will want to apply the desired algorithm to the supplies data, and display the results on screen
-local function SubmitButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The Submit Button was pressed and released")
-    end
-end
- 
--- Create the Submit button widget
-local Submit = widget.newButton(
-    {
-        id = "Submit",
-        label = "Submit",
-        onEvent = SubmitButtonEvent
-    }
-)
---AlgorithmLeft
---Function to handle AlgorithmLeft button events
---this will want to move to the previous algorithm option in a list
-local function AlgorithmLeftButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The AlgorithmLeft Button was pressed and released")
-    end
-end
- 
--- Create the AlgorithmLeft button widget
-local AlgorithmLeft = widget.newButton(
-    {
-        id = "AlgorithmLeft",
-        label = "<<",
-        onEvent = AlgorithmLeftButtonEvent
-    }
-)
---AlgorithmRight
---Function to handle AlgorithmRight button events
---this will want to move to the next algorithm option in a list
-local function AlgorithmRightButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "The AlgorithmRight Button was pressed and released")
-    end
-end
- 
--- Create the AlgorithmRight button widget
-local AlgorithmRight = widget.newButton(
-    {
-        id = "AlgorithmRight",
+        id = "button1",
         label = ">>",
-        onEvent = AlgorithmRightButtonEvent
+        onEvent = handleButtonEvent,
+        
     }
 )
 
+-- Create the widget
+local ButtonLeft = widget.newButton(
+    {
+        id = "button1",
+        label = "<<",
+        onEvent = handleButtonEvent
+    }
+)
 
---AboutApp button placement 
-AboutApp.x =  display.contentCenterX - 50
-AboutApp.y = display.contentCenterY - 220
+-- Create the widget
+local buttonUpload = widget.newButton(
+    {
+        id = "button1",
+        label = "Upload",
+        onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
+        strokeColor = { default={0,0,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
+    }
+)
 
---Quit button placement
-Quit.x =  display.contentCenterX +50
-Quit.y = display.contentCenterY - 220
+-- Create the widget
+local buttonSubmit = widget.newButton(
+    {
+        id = "button1",
+        label = "Submit",
+        onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
+        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
+    }
+)
 
---AlgorithmLeft button placement
-AlgorithmLeft.x =  display.contentCenterX -30 
-AlgorithmLeft.y = display.contentHeight-30
+-- Create the widget
+local buttonAbout = widget.newButton(
+    {
 
---AlgorithmRight button placement
-AlgorithmRight.x =  display.contentCenterX +30 
-AlgorithmRight.y = display.contentHeight-30
+        id = "button1",
+        label = "?",
+        onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
+        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
+    }
+)
+
+-- Create the widget
+local buttonExit = widget.newButton(
+    {
+        id = "button1",
+        label = "X",
+        onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 50,
+        height = 40,
+        cornerRadius = 2,
+        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
+        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
+    }
+)
+buttonExit.x =  display.contentCenterX +120; buttonExit.y = display.contentHeight -460
+
+buttonAbout.x =  display.contentCenterX -120; buttonAbout.y = display.contentHeight -460
+
+buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
+
+buttonSubmit.x =  display.contentCenterX +115; buttonSubmit.y = display.contentHeight-15
+
+buttonRight.x =  display.contentCenterX +120; buttonRight.y = display.contentHeight-60
+
+ButtonLeft.x =  display.contentCenterX -120; ButtonLeft.y = display.contentHeight-60
+
+
+
+
+
+
