@@ -15,6 +15,12 @@ local scrollRect = display.newRect( 0, 0, display.contentWidth, 40)
 scrollRect:setFillColor( 1, 1, 1 )
 scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
 
+------------------------------------------------------------------------------------------- create Algorithm name
+local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
+scrollRect:setFillColor( 1, 1, 1 )
+scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
+algorithmDisplay = display.newText("Algorithm",display.contentCenterX ,display.contentHeight-60 ,"Arial", 20)
+algorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------- button
 --rightButton
@@ -155,6 +161,8 @@ local quitButton = widget.newButton(
         strokeWidth = 1
     }
 )
+
+------------------------------------------------------------------------------------------- designate locations
 quitButton.x =  display.contentCenterX +120
 quitButton.y = display.contentHeight -460
 
@@ -164,11 +172,11 @@ aboutButton.y = display.contentHeight -460
 uploadButton.x =  display.contentCenterX -115
 uploadButton.y = display.contentHeight -15
 
-submitButton.x =  display.contentCenterX +115
+submitButton.x = display.contentCenterX +115
 submitButton.y = display.contentHeight -15
 
-rightButton.x =  display.contentCenterX +120
+rightButton.x = display.contentCenterX +120
 rightButton.y = display.contentHeight -60
 
-leftButton.x =  display.contentCenterX -120
+leftButton.x = display.contentCenterX -120
 leftButton.y = display.contentHeight -60
