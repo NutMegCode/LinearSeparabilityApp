@@ -11,7 +11,7 @@ local widget = require( "widget" ) -- require widget
 display.setStatusBar( display.HiddenStatusBar)
 
 ------------------------------------------------------------------------------------------- box
-local scrollRect = display.newRect( 0, 0, display.contentWidth, 40)
+local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
 scrollRect:setFillColor( 1, 1, 1 )
 scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
 
@@ -31,6 +31,13 @@ local buttonRight = widget.newButton(
         id = "button1",
         label = ">>",
         onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 38,
+        cornerRadius = 2,
+        fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
+        strokeColor = { default={0,1,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
         
     }
 )
@@ -40,8 +47,16 @@ local ButtonLeft = widget.newButton(
     {
         id = "button1",
         label = "<<",
-        onEvent = handleButtonEvent
+        onEvent = handleButtonEvent,
+        shape = "roundedRect",
+        width = 70,
+        height = 38,
+        cornerRadius = 2,
+        fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
+        strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
+        strokeWidth = 1
     }
+    
 )
 
 -- Create the widget
@@ -55,7 +70,7 @@ local buttonUpload = widget.newButton(
         height = 40,
         cornerRadius = 2,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
-        strokeColor = { default={0,0,1,1}, over={0.8,0.8,1,1} },
+        strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
         strokeWidth = 1
     }
 )
@@ -87,8 +102,8 @@ local buttonAbout = widget.newButton(
         width = 50,
         height = 40,
         cornerRadius = 2,
-        fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
-        strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
+        fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
+        strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
         strokeWidth = 1
     }
 )
@@ -103,8 +118,8 @@ local buttonExit = widget.newButton(
         width = 50,
         height = 40,
         cornerRadius = 2,
-        fillColor = { default={1,0,0,1}, over={1,0.1,0.7,0.4} },
-        strokeColor = { default={1,0.4,0,1}, over={0.8,0.8,1,1} },
+        fillColor = { default={1,0,0,1}, over={0.8,0,0,1} },
+        strokeColor = { default={1,0,0,1}, over={0.8,0.8,1,1} },
         strokeWidth = 1
     }
 )
@@ -116,9 +131,11 @@ buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentH
 
 buttonSubmit.x =  display.contentCenterX +115; buttonSubmit.y = display.contentHeight-15
 
-buttonRight.x =  display.contentCenterX +120; buttonRight.y = display.contentHeight-60
+buttonRight.x =  display.contentCenterX +115; buttonRight.y = display.contentHeight-60
 
-ButtonLeft.x =  display.contentCenterX -120; ButtonLeft.y = display.contentHeight-60
+ButtonLeft.x =  display.contentCenterX -115; ButtonLeft.y = display.contentHeight-60
+
+
 
 
 
