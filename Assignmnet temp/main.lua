@@ -12,8 +12,9 @@ local widget = require( "widget" ) -- require widget we gonna use this for butto
 
 --AboutApp
 --Function to handle AboutApp button events
-local function handleButtonEvent(event)
- 
+--this will need two different phases, one two open the about, and one to close it again
+local function AboutAppButtonEvent(event)
+  
     if ("ended" == event.phase) then
         print( "The AboutApp Button was pressed and released")
     end
@@ -24,13 +25,13 @@ local AboutApp = widget.newButton(
     {
         id = "AboutApp",
         label = "About App",
-        onEvent = handleButtonEvent
+        onEvent = AboutAppButtonEvent
     }
 )
 
 --Quit
 --Function to handle Quit button events
-local function handleButtonEvent(event)
+local function QuitButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The Quit Button was pressed and released")
@@ -42,12 +43,13 @@ local Quit = widget.newButton(
     {
         id = "Quit",
         label = "X",
-        onEvent = handleButtonEvent
+        onEvent = QuitButtonEvent
     }
 )
 --UploadFile
 --Function to handle UploadFile button events
-local function handleButtonEvent(event)
+--this will want to upload a file into the project resources, and read in the data
+local function UploadFileButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The UploadFile Button was pressed and released")
@@ -59,12 +61,13 @@ local UploadFile = widget.newButton(
     {
         id = "UploadFile",
         label = "UploadFile",
-        onEvent = handleButtonEvent
+        onEvent = UploadFileButtonEvent
     }
 )
 --Submit
 --Function to handle Submit button events
-local function handleButtonEvent(event)
+-- this will want to apply the desired algorithm to the supplies data, and display the results on screen
+local function SubmitButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The Submit Button was pressed and released")
@@ -76,12 +79,13 @@ local Submit = widget.newButton(
     {
         id = "Submit",
         label = "Submit",
-        onEvent = handleButtonEvent
+        onEvent = SubmitButtonEvent
     }
 )
 --AlgorithmLeft
 --Function to handle AlgorithmLeft button events
-local function handleButtonEvent(event)
+--this will want to move to the previous algorithm option in a list
+local function AlgorithmLeftButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The AlgorithmLeft Button was pressed and released")
@@ -93,12 +97,13 @@ local AlgorithmLeft = widget.newButton(
     {
         id = "AlgorithmLeft",
         label = "<<",
-        onEvent = handleButtonEvent
+        onEvent = AlgorithmLeftButtonEvent
     }
 )
 --AlgorithmRight
 --Function to handle AlgorithmRight button events
-local function handleButtonEvent(event)
+--this will want to move to the next algorithm option in a list
+local function AlgorithmRightButtonEvent(event)
  
     if ("ended" == event.phase) then
         print( "The AlgorithmRight Button was pressed and released")
@@ -110,41 +115,23 @@ local AlgorithmRight = widget.newButton(
     {
         id = "AlgorithmRight",
         label = ">>",
-        onEvent = handleButtonEvent
+        onEvent = AlgorithmRightButtonEvent
     }
 )
 
--- Default Function to handle button events
-local function handleButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        print( "Button was pressed and released")
-    end
-end
- 
--- Create the widget
-local button1 = widget.newButton(
-    {
-        left = 100,
-        top = 200,
-        id = "button1",
-        label = "Click Me",
-        onEvent = handleButtonEvent
-    }
-)
 
---About app button placement 
+--AboutApp button placement 
 AboutApp.x =  display.contentCenterX - 50
 AboutApp.y = display.contentCenterY - 220
 
---About exit button placement
+--Quit button placement
 Quit.x =  display.contentCenterX +50
 Quit.y = display.contentCenterY - 220
 
---About scroll left button placement
+--AlgorithmLeft button placement
 AlgorithmLeft.x =  display.contentCenterX -30 
 AlgorithmLeft.y = display.contentHeight-30
 
---About scroll right button placement
+--AlgorithmRight button placement
 AlgorithmRight.x =  display.contentCenterX +30 
 AlgorithmRight.y = display.contentHeight-30
