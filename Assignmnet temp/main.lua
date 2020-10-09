@@ -11,7 +11,7 @@ local widget = require( "widget" ) -- require widget
 display.setStatusBar( display.HiddenStatusBar)
 
 ------------------------------------------------------------------------------------------- The Algorithms
-local algorithmList = {"One", "Two", "Three"}
+local algorithmList = {"logX", "logY", "Three"}
 choice = 0
 
 ------------------------------------------------------------------------------------------- box
@@ -107,7 +107,16 @@ local uploadButton = widget.newButton(
 local function submitButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The Submit Button was pressed and released")
+        if (choice == 1) then
+            print( "we applied the first algorithm:", algorithmList[choice])
+            --call the logX function
+        elseif (choice == 2) then
+            print( "we applied the second algorithm:", algorithmList[choice])
+            --call the logY function
+        elseif (choice == 3) then
+            print( "we applied the third algorithm:", algorithmList[choice])
+            --call the other function
+        end
     end
 end
 -- Create the widget
