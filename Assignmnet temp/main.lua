@@ -10,6 +10,10 @@ local widget = require( "widget" ) -- require widget
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar)
 
+------------------------------------------------------------------------------------------- The Algorithms
+local algorithmList = {"One", "Two", "Three"}
+choice = 0
+
 ------------------------------------------------------------------------------------------- box
 local scrollRect = display.newRect( 0, 0, display.contentWidth, 40)
 scrollRect:setFillColor( 1, 1, 1 )
@@ -29,11 +33,17 @@ algorithmDisplay: setFillColor(0,0,0,1)
 local function rightButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The rightButton Button was pressed and released")
+        choice = choice + 1
+        if (choice > #algorithmList) then
+            choice = 1
+        end
+        print("the choice is now", choice)
+        algorithmDisplay.text = algorithmList[choice]
+        --apply the actual algorithm
     end
 end
  
--- Create the rightButton widget
+-- Create the widget
 local rightButton = widget.newButton(
     {
         id = "rightButton",
@@ -49,10 +59,15 @@ local rightButton = widget.newButton(
 local function leftButtonEvent(event)
  
     if ("ended" == event.phase) then
-        print( "The leftButton Button was pressed and released")
+        choice = choice - 1
+        if (choice <= 0) then
+            choice = #algorithmList
+        end
+        print("the choice is now", choice)
+        algorithmDisplay.text = algorithmList[choice]
     end
 end
--- Create the leftButton widget
+-- Create the widget
 local leftButton = widget.newButton(
     {
         id = "leftButton",
@@ -70,7 +85,7 @@ local function uploadButtonEvent(event)
         print( "The UploadFile Button was pressed and released")
     end
 end
--- Create the UploadFileButton widget
+-- Create the widget
 local uploadButton = widget.newButton(
     {
         id = "uploadButton",
@@ -95,7 +110,7 @@ local function submitButtonEvent(event)
         print( "The Submit Button was pressed and released")
     end
 end
--- Create the submitButton widget
+-- Create the widget
 local submitButton = widget.newButton(
     {
         id = "submitButton",
@@ -120,7 +135,7 @@ local function aboutButtonEvent(event)
         print( "The AboutApp Button was pressed and released")
     end
 end
--- Create the aboutButton widget
+-- Create the widget
 local aboutButton = widget.newButton(
     {
 
@@ -143,10 +158,11 @@ local function quitButtonEvent(event)
  
     if ("ended" == event.phase) then
         native.requestExit()
+        print( "The Quit Button was pressed and released")
     end
 end
 
--- Create the QuitButton widget
+-- Create the widget
 local quitButton = widget.newButton(
     {
         id = "quitButton",
