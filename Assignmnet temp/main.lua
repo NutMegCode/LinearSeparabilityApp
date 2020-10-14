@@ -18,8 +18,8 @@ choice = 0
 ------------------------------------------------------------------------------------------- create Algorithm name
 local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
 scrollRect:setFillColor( 1, 1, 1 )
-scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-60
-algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.contentHeight-60 ,"Arial", 20)
+scrollRect.x = display.contentCenterX; scrollRect.y = display.contentHeight-74
+algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.contentHeight-74 ,"Arial", 20)
 algorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- help text box info
@@ -27,8 +27,8 @@ algorithmDisplay: setFillColor(0,0,0,1)
 HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
 
 -- create 
-textBox = display.newRect(display.contentCenterX, display.contentCenterY-20,display.contentWidth-18,display.contentHeight-130); textBox.alpha = 0
-DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, display.contentCenterY-165, native.systemFont, 15); DisplayHelpText.alpha = 0
+textBox = display.newRect(display.contentCenterX, display.contentCenterY-40,display.contentWidth-18,display.contentHeight-120); textBox.alpha = 0
+DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, display.contentCenterY-190, native.systemFont, 15); DisplayHelpText.alpha = 0
 DisplayHelpText:setFillColor(1,0,0)
 ------------------------------------------------------------------------------------------- create Algorithm functions
 --------------- Change Algorithm left
@@ -230,24 +230,28 @@ local buttonExit = widget.newButton(
 
 ------------------------------------------------------------------------------------------- button placement
 -- Left button placement
-buttonLeft.x =  display.contentCenterX -115; buttonLeft.y = display.contentHeight-60
+--buttonLeft.x =  display.contentCenterX -115; buttonLeft.y = display.contentHeight-60
+buttonLeft.x = display.screenOriginX + 43; buttonLeft.y = display.screenOriginY +  450
 
 -- Right button placement
-buttonRight.x =  display.contentCenterX +115.5; buttonRight.y = display.contentHeight-60
+--buttonRight.x =  display.contentCenterX +115.5; buttonRight.y = display.contentHeight-60
+buttonRight.x = display.screenOriginX + 276; buttonRight.y = display.screenOriginY +  450
 
 -- About button placement and listener
 buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
-buttonAbout.x =  display.contentCenterX -125; buttonAbout.y = display.contentHeight -460
+--buttonAbout.x =  display.contentCenterX -125; buttonAbout.y = display.contentHeight -460
+buttonAbout.x = display.screenOriginX + 34; buttonAbout.y = display.screenOriginY + 40
 
 -- Upload button placement
-buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
+--buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
+buttonUpload.x = display.screenOriginX + 43; buttonUpload.y = display.screenOriginY + 500
 
 -- apply button placement
-buttonApply.x =  display.contentCenterX +115.5; buttonApply.y = display.contentHeight-15
+--buttonApply.x =  display.contentCenterX +115.5; buttonApply.y = display.contentHeight-15
+buttonApply.x = display.screenOriginX + 276; buttonApply.y = display.screenOriginY + 500
 
 -- Exit button placement
-buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
-
-
+--buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
+buttonExit.x = display.screenOriginX + 285; buttonExit.y = display.screenOriginY + 40
 
 
