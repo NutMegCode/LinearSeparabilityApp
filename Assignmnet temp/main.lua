@@ -75,11 +75,32 @@ end
 --------------- Upload data
 --Function to handle UploadFile button events, this will want to upload a file into the project resources, and read in the data
 local function UploadFileButtonEvent(event)
- 
+    
     if ("ended" == event.phase) then
-        print( "The UploadFile Button was pressed")
+        local path = system.pathForFile( "data.csv", system.DocumentsDirectory )
+        
+        -- Open the file handle
+        local file, errorString = io.open( path, "r" )
+        
+        if not file then
+            -- Error occurred; output the cause
+            print( "File error: " .. errorString )
+        else
+            -- Output lines
+            for line in file:lines() do
+                print( line )
+                --confirm data has been uploaded
+                algorithmDisplay.text = "Data Uploaded"
+            end
+            
+            -- Close the file handle
+            io.close( file )
+        end
+        
+        file = nil
+
+        end
     end
-end
 
 ---------------- Apply alogrithm on data
 --Function to handle Submit button events,  this will want to apply the desired algorithm to the supplies data, and display the results on screen
