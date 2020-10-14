@@ -212,7 +212,7 @@ local buttonExit = widget.newButton(
 buttonLeft.x =  display.contentCenterX -115; buttonLeft.y = display.contentHeight-60
 
 -- Right button placement
-buttonRight.x =  display.contentCenterX +116; buttonRight.y = display.contentHeight-60
+buttonRight.x =  display.contentCenterX +115.5; buttonRight.y = display.contentHeight-60
 
 -- About button placement and listener
 buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
@@ -221,12 +221,11 @@ buttonAbout.x =  display.contentCenterX -125; buttonAbout.y = display.contentHei
 -- Upload button placement
 buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
 
--- submit button placement
-buttonApply.x =  display.contentCenterX +116; buttonApply.y = display.contentHeight-15
+-- apply button placement
+buttonApply.x =  display.contentCenterX +115.5; buttonApply.y = display.contentHeight-15
 
 -- Exit button placement
-buttonExit.x =  display.contentCenterX +126; buttonExit.y = display.contentHeight -460
-
+buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
 
 
 
