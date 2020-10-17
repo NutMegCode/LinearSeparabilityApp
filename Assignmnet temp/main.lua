@@ -3,78 +3,93 @@
 --Group Name: The Mob Squad
 -- Samiollah Ranjbar - 10482589
 -- Megan Dwyer - 
------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------- Initialise things
 -- require things
 local widget = require( "widget" ) -- require widget
 
 -- hide status bar
 display.setStatusBar( display.HiddenStatusBar)
 
--- Create empty table
-local CapturedLine = {}
-------------------------------------------------------------------------------------------- Make Group
 -- make groups
 local helpGroup = display.newGroup()
 
+-- Make the Y axis -- Make Graph _H -- Make third_H
+local _H = display.screenOriginY + 50; local second_H = _H  + 50; local third_H = _H +640
+
+-- Make the X axis  -- Make second_W  
+local _W = display.screenOriginX + 65; graph_W = _W -40; local second_W = _W + 370; --exit_W = _W +250
+
+-- Create empty table
+local CapturedLine = {}
+
+-- Create background
+local backGround = display.newRect(display.contentCenterX, display.contentCenterY,display.actualContentWidth+200,display.actualContentHeight+400, 0.1); 
+backGround.alpha = 1
+
+-- info here will go into help text box
+local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
 ------------------------------------------------------------------------------------------- The Algorithms
 local algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
 choice = 0
 
-------------------------------------------------------------------------------------------- create Algorithm name
---local scrollRect = display.newRect( display.contentCenterX, display.screenOriginY +  470, 200, 40)
---scrollRect:setFillColor( 1, 1, 1 )
-algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.screenOriginY +  470 ,"Arial", 14)
-algorithmDisplay: setFillColor(0,0,0,1)
+------------------------------------------------------------------------------------------- display algorithm name
 
-------------------------------------------------------------------------------------------- help text box info
--- Create background
-local backGround = display.newRect(display.contentCenterX, display.contentCenterY,display.actualContentWidth,display.actualContentHeight); 
--- info here will go into help text box
-
-local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
-
--- create text box
-local helptextBox = display.newRect(display.contentCenterX, display.contentCenterY-40,display.contentWidth-18,display.contentHeight-120);-- helptextBox.alpha = 0
-local DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, display.contentCenterY-190, native.systemFont, 15);-- DisplayHelpText.alpha = 0
-DisplayHelpText:setFillColor(1,0,0)
-
---boxLines:setStrokeColor(0,0,0,0);
-helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
-helpGroup.alpha = 0
-
+local scrollRect = display.newRect( display.contentCenterX, third_H, 400, 70); scrollRect:setFillColor(0.8);
+algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,third_H ,"Arial", 28); algorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- graph
 -- create graph
-local XnumberCounter = 11
+local WidthCounter = 11
 local YnumberCounter = 13
-local reducesizeLine = 100
+-- Y line
+local YLineLocation = 0
+_HEnd = _H +590
+for num = 1, WidthCounter do
+    if num == 6 then
+        boxLines = display.newLine(graph_W+ (YLineLocation), second_H ,graph_W +(YLineLocation),_HEnd);
+        boxLines:setStrokeColor( 1, 0, 0, 1 ); boxLines.strokeWidth = 3
+    end
+    boxLines = display.newLine(graph_W + (YLineLocation), second_H , graph_W +(YLineLocation), _HEnd);
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 2
+    YLineLocation = YLineLocation + 45
+end
 
 -- X line
-local XlocationLine = 0
-for num = 1, XnumberCounter do
-    if num == 6 then
-        XLine = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-210,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
-        XLine:setStrokeColor( 1, 0, 0, 1 ); XLine.strokeWidth = 1.5
-    end
-    boxLines = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-210,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
-    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1
-    XlocationLine = XlocationLine + 30
-end
-
--- Y line
-local YlocationLine = 0
+local XLineLocation = 0
+_WEnd = _W + 410
 for num = 1, YnumberCounter do
     if num == 7 then
-        YLine = display.newLine(display.contentCenterX+150, display.contentCenterY-210+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-210+ (YlocationLine));
-        YLine:setStrokeColor( 1, 0, 0, 1 ); YLine.strokeWidth = 1
+        boxLines = display.newLine(graph_W, second_H + (XLineLocation),_WEnd, second_H + (XLineLocation));
+        boxLines:setStrokeColor( 1, 0, 0, 1 ); boxLines.strokeWidth = 3
     end
-    boxLines = display.newLine(display.contentCenterX+150, display.contentCenterY-210+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-210+ (YlocationLine));
-    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1
-    YlocationLine = YlocationLine + 30
+    boxLines = display.newLine(graph_W, second_H + (XLineLocation),_WEnd, second_H + (XLineLocation));
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 2
+    XLineLocation = XLineLocation + 45
 end
 
+-- numbers -- place numbers code here
 
-------------------------------------------------------------------------------------------- create Algorithm functions
+------------------------------------------------------------------------------------------- dot on graph
+-- palce dot plot code here
+
+
+------------------------------------------------------------------------------------------- Make Group
+-- make groups
+local helpGroup = display.newGroup()
+------------------------------------------------------------------------------------------- help text box info
+second_H = second_H +25
+local DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, second_H, native.systemFont, 15);
+
+DisplayHelpText:setFillColor(1,0,0)
+second_H = second_H +155
+-- create text box
+local helptextBox = display.newRect(display.contentCenterX, second_H ,display.contentWidth-18,display.contentHeight-110);
+helptextBox:setFillColor(1,1,0,1)
+
+helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
+helpGroup.alpha = 0
+
+------------------------------------------------------------------------------------------- create buttons
 --------------- Change Algorithm left
 --Function to handle AlgorithmLeft button events, this will want to move to the previous algorithm option in a list
 function AlgorithmLeftButtonEvent(event)
@@ -84,8 +99,7 @@ function AlgorithmLeftButtonEvent(event)
         if (choice <= 0) then
             choice = #algorithmList
         end        
-        --print(choice)
-        print(algorithmList[choice].." selected")
+        print(algorithmList[choice].." selected") -- used as a test
         algorithmDisplay.text = algorithmList[choice]
     end
 end
@@ -99,8 +113,7 @@ function AlgorithmRightButtonEvent(event)
         if (choice > #algorithmList) then
             choice = 1
         end        
-        print(choice)
-        print(algorithmList[choice].." selected")
+        print(algorithmList[choice].." selected")  -- used as a test
         algorithmDisplay.text = algorithmList[choice]
         --apply the actual algorithm
     end
@@ -137,6 +150,7 @@ function UploadFileButtonEvent(event)
                 local yAxisChar, xAxisChar, groupTypeChar = line:match("([^Y]*),([^X]*),([^G]*)")
                 CapturedLine[counter] = {groupType = groupTypeChar, yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), }
                 counter = counter+1
+                algorithmDisplay.text = "Data Uploaded"
             end
             -- Close the file handle
             io.close( file )
@@ -187,14 +201,16 @@ local buttonLeft = widget.newButton(
     {
         id = "bleft",
         label = "<<",
+        font = "Arial",
+        fontSize = 30,
         onEvent = AlgorithmLeftButtonEvent,
         shape = "roundedRect",
-        width = 70,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
     }
     
 )
@@ -204,14 +220,16 @@ local buttonRight = widget.newButton(
     {
         id = "bright",
         label = ">>",
+        font = "Arial",
+        fontSize = 30,
         onEvent = AlgorithmRightButtonEvent,
         shape = "roundedRect",
-        width = 70,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = { default={0,1,1,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
         
     }
 )
@@ -221,14 +239,16 @@ local buttonAbout = widget.newButton(
     {
         id = "babout",
         label = "?",
+        font = "Arial",
+        fontSize = 30,
         onEvent = AboutAppButtonEvent,
         shape = "roundedRect",
-        width = 50,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
     }
 )
 
@@ -237,14 +257,16 @@ local buttonUpload = widget.newButton(
     {
         id = "bupload",
         label = "Upload",
+        font = "Arial",
+        fontSize = 30,
         onEvent =  UploadFileButtonEvent,
         shape = "roundedRect",
-        width = 70,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
     }
 )
 
@@ -253,14 +275,16 @@ local buttonApply = widget.newButton(
     {
         id = "bapply",
         label = "Apply",
+        font = "Arial",
+        fontSize = 30,
         onEvent = ApplyButtonEvent,
         shape = "roundedRect",
-        width = 70,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
         strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
     }
 )
 
@@ -269,44 +293,40 @@ local buttonExit = widget.newButton(
     {
         id = "bexit",
         label = "X",
+        font = "Arial",
+        fontSize = 30,
         onEvent = QuitButtonEvent,
         shape = "roundedRect",
-        width = 50,
-        height = 38,
-        cornerRadius = 2,
+        width = 100,
+        height = 65,
+        cornerRadius = 4,
         fillColor = { default={1,0,0,1}, over={0.8,0,0,1} },
         strokeColor = { default={1,0,0,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 1
+        strokeWidth = 4
     }
 )
 
-
-
 ------------------------------------------------------------------------------------------- button placement
--- Left button placement
---buttonLeft.x =  display.contentCenterX -115; buttonLeft.y = display.contentHeight-60
-buttonLeft.x = display.screenOriginX + 43; buttonLeft.y = display.screenOriginY +  470
-
--- Right button placement
---buttonRight.x =  display.contentCenterX +115.5; buttonRight.y = display.contentHeight-60
-buttonRight.x = display.screenOriginX + 276; buttonRight.y = display.screenOriginY +  470
-
 -- About button placement and listener
 buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
---buttonAbout.x =  display.contentCenterX -125; buttonAbout.y = display.contentHeight -460
-buttonAbout.x = display.screenOriginX + 34; buttonAbout.y = display.screenOriginY + 40
-
--- Upload button placement
---buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
-buttonUpload.x = display.screenOriginX + 43; buttonUpload.y = display.screenOriginY + 520
-
--- apply button placement
---buttonApply.x =  display.contentCenterX +115.5; buttonApply.y = display.contentHeight-15
-buttonApply.x = display.screenOriginX + 276; buttonApply.y = display.screenOriginY + 520
+buttonAbout.x = _W ; buttonAbout.y = _H
 
 -- Exit button placement
---buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
-buttonExit.x = display.screenOriginX + 285; buttonExit.y = display.screenOriginY + 40
+buttonExit.x = second_W; buttonExit.y = _H
 
+-- Left button placement
+buttonLeft.x =  _W ; buttonLeft.y = third_H
+
+-- Right button placement
+buttonRight.x = second_W; buttonRight.y = third_H
+
+-- Make lower button _H location
+third_H = third_H +85
+
+-- Upload button placement
+buttonUpload.x =  _W ; buttonUpload.y = third_H
+
+-- apply button placement
+buttonApply.x = second_W; buttonApply.y = third_H
 
 
