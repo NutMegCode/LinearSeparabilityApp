@@ -78,16 +78,16 @@ end
 local helpGroup = display.newGroup()
 ------------------------------------------------------------------------------------------- help text box info
 second_H = second_H +25
-local DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, second_H, native.systemFont, 15);
-
+local DisplayHelpText = display.newText(HelpTextInfo, _W + 190, second_H +25, native.systemFont, 25);
 DisplayHelpText:setFillColor(1,0,0)
-second_H = second_H +155
+second_H = second_H +165
+
 -- create text box
-local helptextBox = display.newRect(display.contentCenterX, second_H ,display.contentWidth-18,display.contentHeight-110);
-helptextBox:setFillColor(1,1,0,1)
+local helptextBox = display.newRect(display.contentCenterX, second_H + 80,display.contentWidth-30,display.contentHeight*1.08);
+helptextBox:setFillColor(1,1,1,1)
 
 helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
-helpGroup.alpha = 0
+helpGroup.alpha = 1
 
 ------------------------------------------------------------------------------------------- create buttons
 --------------- Change Algorithm left
@@ -328,5 +328,3 @@ buttonUpload.x =  _W ; buttonUpload.y = third_H
 
 -- apply button placement
 buttonApply.x = second_W; buttonApply.y = third_H
-
-
