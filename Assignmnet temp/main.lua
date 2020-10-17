@@ -15,20 +15,22 @@ local CapturedLine = {}
 ------------------------------------------------------------------------------------------- Make Group
 -- make groups
 local helpGroup = display.newGroup()
-local graphGroup = display.newGroup()
 
 ------------------------------------------------------------------------------------------- The Algorithms
 local algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
 choice = 0
 
 ------------------------------------------------------------------------------------------- create Algorithm name
-local scrollRect = display.newRect( 0, 0, display.contentWidth-30, 40)
+local scrollRect = display.newRect( display.contentCenterX, display.screenOriginY +  470, 200, 40)
 scrollRect:setFillColor( 1, 1, 1 )
-scrollRect.x = display.contentCenterX; scrollRect.y = display.screenOriginY +  450
-algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.screenOriginY +  450 ,"Arial", 14)
+algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.screenOriginY +  470 ,"Arial", 14)
 algorithmDisplay: setFillColor(0,0,0,1)
+
 ------------------------------------------------------------------------------------------- help text box info
+-- Create background
+local backGround = display.newRect(display.contentCenterX, display.contentCenterY-120,display.actualContentWidth,display.actualContentHeight); 
 -- info here will go into help text box
+
 local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
 
 -- create text box
@@ -36,20 +38,42 @@ local helptextBox = display.newRect(display.contentCenterX, display.contentCente
 local DisplayHelpText = display.newText(HelpTextInfo, display.contentCenterX - 10, display.contentCenterY-190, native.systemFont, 15);-- DisplayHelpText.alpha = 0
 DisplayHelpText:setFillColor(1,0,0)
 
---peroblem with making the graph
---[[
--- create graph
-local graphBox = display.newRect(display.contentCenterX, display.contentCenterY-40,320,620); -- graphBox.alpha = 1
-local graphYLine = display.newLine(display.contentCenterX-150, display.contentCenterY-190,display.contentCenterX-150, display.contentCenterY+110); -- graphYLine.alpha = 1
-local graphXLine = display.newLine(display.contentCenterX+150, display.contentCenterY+110,display.contentCenterX-150, display.contentCenterY+110); -- graphXLine.alpha = 1
-graphYLine:setStrokeColor( 1, 0, 0, 1 ); graphYLine.strokeWidth = 2
-graphXLine:setStrokeColor( 1, 0, 0, 1 ); graphXLine.strokeWidth = 2
-]]
-
+--boxLines:setStrokeColor(0,0,0,0);
 helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
 helpGroup.alpha = 0
---graphGroup:insert(graphBox);graphGroup:insert(graphYLine);graphGroup:insert(graphXLine);
---graphGroup.alpha = 1
+
+
+------------------------------------------------------------------------------------------- graph
+-- create graph
+local numberCounter = 11
+local reducesizeLine = 100
+
+-- X line
+local XlocationLine = 0
+for num = 1, numberCounter do
+    if num == 6 then
+        XLine = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-150,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
+        XLine:setStrokeColor( 1, 0, 0, 1 ); XLine.strokeWidth = 1.5
+    end
+    boxLines = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-150,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1.5
+    XlocationLine = XlocationLine + 30
+end
+
+-- Y line
+local YlocationLine = 0
+for num = 1, numberCounter do
+    if num == 6 then
+        YLine = display.newLine(display.contentCenterX+150, display.contentCenterY-150+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-150+ (YlocationLine));
+        YLine:setStrokeColor( 1, 0, 0, 1 ); YLine.strokeWidth = 1.5
+    end
+    boxLines = display.newLine(display.contentCenterX+150, display.contentCenterY-150+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-150+ (YlocationLine));
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1.5
+    YlocationLine = YlocationLine + 30
+end
+
+
+
 ------------------------------------------------------------------------------------------- create Algorithm functions
 --------------- Change Algorithm left
 --Function to handle AlgorithmLeft button events, this will want to move to the previous algorithm option in a list
@@ -86,7 +110,7 @@ end
 --Function to handle AboutApp button events, this will need two different phases, one two open the about, and one to close it again
 function AboutAppButtonEvent(event)
     if ( event.numTaps == 1 ) then
-        graphGroup.alpha = 0; helpGroup.alpha = 1
+        helpGroup.alpha = 1
     elseif ( event.numTaps == 2 ) then
         helpGroup.alpha = 0
     end  
@@ -107,8 +131,6 @@ function UploadFileButtonEvent(event)
             -- Error occured; output cause
             print("Error: " .. errorString)
         else
-            -- Display Graph
-            --graphGroup.alpha = 1
             -- Else capture every element seperately in each line
             local counter = 1
             for line in file:lines() do
@@ -131,10 +153,6 @@ function UploadFileButtonEvent(event)
         end
     end
 end
-
-
-
-
 
 --------------- Apply alogrithm on data
 --Function to handle Submit button events,  this will want to apply the desired algorithm to the supplies data, and display the results on screen
@@ -262,14 +280,16 @@ local buttonExit = widget.newButton(
     }
 )
 
+
+
 ------------------------------------------------------------------------------------------- button placement
 -- Left button placement
 --buttonLeft.x =  display.contentCenterX -115; buttonLeft.y = display.contentHeight-60
-buttonLeft.x = display.screenOriginX + 43; buttonLeft.y = display.screenOriginY +  450
+buttonLeft.x = display.screenOriginX + 43; buttonLeft.y = display.screenOriginY +  470
 
 -- Right button placement
 --buttonRight.x =  display.contentCenterX +115.5; buttonRight.y = display.contentHeight-60
-buttonRight.x = display.screenOriginX + 276; buttonRight.y = display.screenOriginY +  450
+buttonRight.x = display.screenOriginX + 276; buttonRight.y = display.screenOriginY +  470
 
 -- About button placement and listener
 buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
@@ -278,12 +298,14 @@ buttonAbout.x = display.screenOriginX + 34; buttonAbout.y = display.screenOrigin
 
 -- Upload button placement
 --buttonUpload.x =  display.contentCenterX -115; buttonUpload.y = display.contentHeight -15
-buttonUpload.x = display.screenOriginX + 43; buttonUpload.y = display.screenOriginY + 500
+buttonUpload.x = display.screenOriginX + 43; buttonUpload.y = display.screenOriginY + 520
 
 -- apply button placement
 --buttonApply.x =  display.contentCenterX +115.5; buttonApply.y = display.contentHeight-15
-buttonApply.x = display.screenOriginX + 276; buttonApply.y = display.screenOriginY + 500
+buttonApply.x = display.screenOriginX + 276; buttonApply.y = display.screenOriginY + 520
 
 -- Exit button placement
 --buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
 buttonExit.x = display.screenOriginX + 285; buttonExit.y = display.screenOriginY + 40
+
+
