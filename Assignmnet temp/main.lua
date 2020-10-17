@@ -21,14 +21,14 @@ local algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
 choice = 0
 
 ------------------------------------------------------------------------------------------- create Algorithm name
-local scrollRect = display.newRect( display.contentCenterX, display.screenOriginY +  470, 200, 40)
-scrollRect:setFillColor( 1, 1, 1 )
+--local scrollRect = display.newRect( display.contentCenterX, display.screenOriginY +  470, 200, 40)
+--scrollRect:setFillColor( 1, 1, 1 )
 algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,display.screenOriginY +  470 ,"Arial", 14)
 algorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- help text box info
 -- Create background
-local backGround = display.newRect(display.contentCenterX, display.contentCenterY-120,display.actualContentWidth,display.actualContentHeight); 
+local backGround = display.newRect(display.contentCenterX, display.contentCenterY,display.actualContentWidth,display.actualContentHeight); 
 -- info here will go into help text box
 
 local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
@@ -45,33 +45,33 @@ helpGroup.alpha = 0
 
 ------------------------------------------------------------------------------------------- graph
 -- create graph
-local numberCounter = 11
+local XnumberCounter = 11
+local YnumberCounter = 13
 local reducesizeLine = 100
 
 -- X line
 local XlocationLine = 0
-for num = 1, numberCounter do
+for num = 1, XnumberCounter do
     if num == 6 then
-        XLine = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-150,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
+        XLine = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-210,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
         XLine:setStrokeColor( 1, 0, 0, 1 ); XLine.strokeWidth = 1.5
     end
-    boxLines = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-150,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
-    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1.5
+    boxLines = display.newLine(display.contentCenterX-150+ (XlocationLine), display.contentCenterY-210,display.contentCenterX-150 +(XlocationLine), display.contentCenterY+150);
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1
     XlocationLine = XlocationLine + 30
 end
 
 -- Y line
 local YlocationLine = 0
-for num = 1, numberCounter do
-    if num == 6 then
-        YLine = display.newLine(display.contentCenterX+150, display.contentCenterY-150+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-150+ (YlocationLine));
-        YLine:setStrokeColor( 1, 0, 0, 1 ); YLine.strokeWidth = 1.5
+for num = 1, YnumberCounter do
+    if num == 7 then
+        YLine = display.newLine(display.contentCenterX+150, display.contentCenterY-210+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-210+ (YlocationLine));
+        YLine:setStrokeColor( 1, 0, 0, 1 ); YLine.strokeWidth = 1
     end
-    boxLines = display.newLine(display.contentCenterX+150, display.contentCenterY-150+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-150+ (YlocationLine));
-    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1.5
+    boxLines = display.newLine(display.contentCenterX+150, display.contentCenterY-210+ (YlocationLine),display.contentCenterX-150, display.contentCenterY-210+ (YlocationLine));
+    boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 1
     YlocationLine = YlocationLine + 30
 end
-
 
 
 ------------------------------------------------------------------------------------------- create Algorithm functions
@@ -135,7 +135,7 @@ function UploadFileButtonEvent(event)
             local counter = 1
             for line in file:lines() do
                 local yAxisChar, xAxisChar, groupTypeChar = line:match("([^Y]*),([^X]*),([^G]*)")
-                CapturedLine[counter] = {yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), groupType = groupTypeChar}
+                CapturedLine[counter] = {groupType = groupTypeChar, yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), }
                 counter = counter+1
             end
             -- Close the file handle
@@ -148,7 +148,7 @@ function UploadFileButtonEvent(event)
         local counter = 1
         -- Make loop that prints each element in all lines of CapturedLine table
         for num = 1, total, 1 do
-            print(CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum..','..CapturedLine[counter].groupType)
+            print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
             counter = counter + 1
         end
     end
@@ -307,5 +307,6 @@ buttonApply.x = display.screenOriginX + 276; buttonApply.y = display.screenOrigi
 -- Exit button placement
 --buttonExit.x =  display.contentCenterX +125; buttonExit.y = display.contentHeight -460
 buttonExit.x = display.screenOriginX + 285; buttonExit.y = display.screenOriginY + 40
+
 
 
