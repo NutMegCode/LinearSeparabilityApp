@@ -1,38 +1,38 @@
 -----------------------------------------------------------------------------------------
 -- main.lua
---Group Name: The Mob Squad
+-- Group Name: The Mob Squad
 -- Samiollah Ranjbar - 10482589
--- Megan Dwyer - 
+-- Megan Dwyer - 10389010
 ----------------------------------------------------------------------------------------- Initialise things
 local path = system.pathForFile("data.csv", system.ResorceDirectory)
-    -- Create empty table
-    local CapturedLine = {}
-    -- Open the file handle
-    local file, errorString = io.open( path, "r")
+-- Create empty table
+local CapturedLine = {}
+-- Open the file handle
+local file, errorString = io.open( path, "r")
 
-    if not file then
-        -- Error occured; output cause
-        print("Error: " .. errorString)
-    else
-        -- Else capture every element seperately in each line
-        local counter = 1
-        for line in file:lines() do
-            local yAxisChar, xAxisChar, groupTypeChar = line:match("([^Y]*),([^X]*),([^G]*)")
-            CapturedLine[counter] = {groupType = groupTypeChar, yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), }
-            counter = counter+1
-        end
-        -- Close the file handle
-        io.close( file )
-    end
-    file = nil
-    -- Make total variable max of CapturedLine table
-    local total = table.maxn(CapturedLine)
+if not file then
+    -- Error occured; output cause
+    print("Error: " .. errorString)
+else
+    -- Else capture every element seperately in each line
     local counter = 1
-    -- Make loop that prints each element in all lines of CapturedLine table
-    for num = 1, total, 1 do
-        print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
-        counter = counter + 1
+    for line in file:lines() do
+        local yAxisChar, xAxisChar, groupTypeChar = line:match("([^Y]*),([^X]*),([^G]*)")
+        CapturedLine[counter] = {groupType = groupTypeChar, yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), }
+        counter = counter+1
     end
+    -- Close the file handle
+    io.close( file )
+end
+file = nil
+-- Make total variable max of CapturedLine table
+local total = table.maxn(CapturedLine)
+local counter = 1
+-- Make loop that prints each element in all lines of CapturedLine table
+for num = 1, total, 1 do
+    print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
+    counter = counter + 1
+end
 
 -- require things
 local widget = require( "widget" ) -- require widget
@@ -50,7 +50,7 @@ local _H = display.screenOriginY + 50; local second_H = _H  + 50; local third_H 
 local _W = display.screenOriginX + 65; graph_W = _W -40; local second_W = _W + 370; --exit_W = _W +250
 
 -- Create empty table
-local CapturedLine = {}
+--local CapturedLine = {}
 
 -- Create background
 local backGround = display.newRect(display.contentCenterX, display.contentCenterY,display.actualContentWidth+200,display.actualContentHeight+400, 0.1); 
@@ -58,9 +58,43 @@ backGround.alpha = 1;
 
 -- info here will go into help text box
 local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
-------------------------------------------------------------------------------------------- The Algorithms
-local algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
+
+algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
 choice = 0;
+------------------------------------------------------------------------------------------- The Algorithms
+
+function powerUpAlgorithm(item)
+    item = math.floor(math.log(item ^2));
+    return item;
+end
+--most value is 2, least value is -10
+
+function lessMoreAlgorithm(item)
+    if (item >0) then
+        item = math.floor(item + item^2);
+        return item;
+    else
+        item = math.floor(item - item^2);
+        return item;
+    end
+end
+--most value is 11, least value is -11
+
+function logitAlgorithm(item)
+    item = math.floor(item * math.log(item^2))
+    return item;
+end
+--most value is 6, least value is -6
+
+print("------------------------------")
+for index = 1, #CapturedLine do
+    print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
+end
+
+--print(powerUp(CapturedLine[1].xAxisNum))
+print("------------------------------")
+
+
 
 ------------------------------------------------------------------------------------------- display algorithm name
 
@@ -104,8 +138,8 @@ end
 -- numbers text -- place numbers code here
 --X line
 local XNumberLocation = 0;
-for textnum = 3, XnubmerLine, -1 do
-    algorithmDisplay = display.newText(textnum,graph_W ,second_H + (XNumberLocation),"Arial", 28): setFillColor(0)
+for textnum = 3, -3, -1 do
+    --algorithmDisplay = display.newText(textnum,graph_W+100 ,second_H + (XNumberLocation),"Arial", 28): setFillColor(0)
     XNumberLocation = XNumberLocation + 90
 end
 -- Y line
@@ -133,7 +167,7 @@ helpGroup.alpha = 0;
 --------------- Change Algorithm left
 --Function to handle AlgorithmLeft button events, this will want to move to the previous algorithm option in a list
 function AlgorithmLeftButtonEvent(event)
- 
+
     if ("ended" == event.phase) then
         choice = choice - 1
         if (choice <= 0) then
@@ -147,7 +181,7 @@ end
 --------------- Change Algorithm right
 --Function to handle AlgorithmRight button events, this will want to move to the next algorithm option in a list
 function AlgorithmRightButtonEvent(event)
- 
+
     if ("ended" == event.phase) then
         choice = choice + 1
         if (choice > #algorithmList) then
@@ -368,3 +402,4 @@ buttonUpload.x =  _W ; buttonUpload.y = third_H;
 
 -- apply button placement
 buttonApply.x = second_W; buttonApply.y = third_H;
+
