@@ -59,12 +59,17 @@ backGround.alpha = 1;
 -- info here will go into help text box
 local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
 
-algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
+algorithmList = {"powerUp", "lessMore", "logit"}
 choice = 0;
 ------------------------------------------------------------------------------------------- The Algorithms
 
 function powerUpAlgorithm(item)
     item = math.floor(math.log(item ^2));
+    if (item > 0) then
+        item = item - 3
+    else 
+        item = item + 3
+    end
     return item;
 end
 --most value is 2, least value is -10
@@ -72,9 +77,19 @@ end
 function lessMoreAlgorithm(item)
     if (item >0) then
         item = math.floor(item + item^2);
+        if (item > 0) then
+            item = item - 3
+        else 
+            item = item + 3
+        end
         return item;
     else
         item = math.floor(item - item^2);
+        if (item > 0) then
+            item = item - 3
+        else 
+            item = item + 3
+        end
         return item;
     end
 end
@@ -82,17 +97,14 @@ end
 
 function logitAlgorithm(item)
     item = math.floor((item + math.mod(item,2)) * math.log(item^2))
+    if (item > 0) then
+        item = item - 3
+    else 
+        item = item + 3
+    end
     return item;
 end
 --most value is 8, least value is -8
-
-print("------------------------------")
-for index = 1, #CapturedLine do
-    print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
-end
-
---print(powerUp(CapturedLine[1].xAxisNum))
-print("------------------------------")
 
 
 
@@ -249,13 +261,22 @@ function ApplyButtonEvent(event)
     if ("ended" == event.phase) then
         if (choice == 1) then
             print( algorithmList[choice].." algorithm applied")
-            --call the logX function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+            end
         elseif (choice == 2) then
             print( algorithmList[choice].." algorithm applied")
-            --call the logY function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..lessMoreAlgorithm(CapturedLine[index].xAxisNum))
+            end
         elseif (choice == 3) then
             print( algorithmList[choice].." algorithm applied")
-            --call the other function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
+            end
         end
     end
 end
