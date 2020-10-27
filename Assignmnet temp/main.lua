@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 -- main.lua
---Group Name: The Mob Squad
+-- Group Name: The Mob Squad
 -- Samiollah Ranjbar - 10482589
--- Megan Dwyer - 
+-- Megan Dwyer - 10389010
 ----------------------------------------------------------------------------------------- Initialise things
 local path = system.pathForFile("data.csv", system.ResorceDirectory)
     -- Create empty table
@@ -44,13 +44,10 @@ display.setStatusBar( display.HiddenStatusBar)
 local helpGroup = display.newGroup()
 
 -- Make the Y axis -- Make Graph _H -- Make third_H
-local _H = display.screenOriginY + 50; local second_H = _H  + 50; local third_H = _H +640
+local _H = display.screenOriginY + 50; local second_H = _H  + 50; local third_H = _H +660
 
 -- Make the X axis  -- Make second_W  
 local _W = display.screenOriginX + 65; graph_W = _W -40; local second_W = _W + 370; --exit_W = _W +250
-
--- Create empty table
-local CapturedLine = {}
 
 -- Create background
 local backGround = display.newRect(display.contentCenterX, display.contentCenterY,display.actualContentWidth+200,display.actualContentHeight+400, 0.1); 
@@ -58,27 +55,73 @@ backGround.alpha = 1;
 
 -- info here will go into help text box
 local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
+
 ------------------------------------------------------------------------------------------- The Algorithms
-local algorithmList = {"Algorithm 1", "Algorithm 2", "Algorithm 3"}
-choice = 0;
+algorithmList = {"powerUp", "lessMore", "logit"}
+local choice = 0;
+
+function powerUpAlgorithm(item)
+    item = math.floor(math.log(item ^2));
+    if (item > 0) then
+        item = item - 3
+    else 
+        item = item + 3
+    end
+    return item;
+end
+--highest value = 2, lowest value = -7
+
+function lessMoreAlgorithm(item)
+    if (item >0) then
+        item = math.floor(item + item^2);
+        if (item > 0) then
+            item = item - 3
+        else 
+            item = item + 3
+        end
+        return item;
+    else
+        item = math.floor(item - item^2);
+        if (item > 0) then
+            item = item - 3
+        else 
+            item = item + 3
+        end
+        return item;
+    end
+end
+--highest value = 5, lowest value = -4
+
+function logitAlgorithm(item)
+    item = math.floor((item + math.mod(item,2)) * math.log(item^2))
+    if (item > 0) then
+        item = item - 3
+    else 
+        item = item + 3
+    end
+    return item;
+end
+--highest value = 8, lowest value -8
+
+
 
 ------------------------------------------------------------------------------------------- display algorithm name
 
-local scrollRect = display.newRect( display.contentCenterX, third_H, 400, 70); scrollRect:setFillColor(0.8);
+local scrollRect = display.newRect( display.contentCenterX, third_H, 400, 68); scrollRect:setFillColor(0.8);
 algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,third_H ,"Arial", 28); algorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- graph
 -- create graph
 local XnumberCounter = 11;
-local YnumberCounter = 13;
+local YnumberCounter = 17;
 local XnubmerLine = XnumberCounter/2;
 local YnubmerLine = YnumberCounter/2;
 -- Y line
 local YLineLocation = 0;
 _HEnd = _H +590;
 for num = 1, XnumberCounter do
-    if num == 6 then
-        boxLines = display.newLine(graph_W+ (YLineLocation), second_H ,graph_W +(YLineLocation),_HEnd);
+    if num == 1 then
+        boxLines = display.newLine(graph_W, second_H ,graph_W, _HEnd);
         boxLines:setStrokeColor( 1, 0, 0, 1 ); boxLines.strokeWidth = 3;
     end
     boxLines = display.newLine(graph_W + (YLineLocation), second_H , graph_W +(YLineLocation), _HEnd);
@@ -91,31 +134,80 @@ local XLineLocation = 0;
 
 _WEnd = _W + 410;
 for num = 1, YnumberCounter do
-    if num == 7 then
+    if num == 9 then
         boxLines = display.newLine(graph_W, second_H + (XLineLocation),_WEnd, second_H + (XLineLocation));
         boxLines:setStrokeColor( 1, 0, 0, 1 ); boxLines.strokeWidth = 3;
+        
+    elseif num == YnumberCounter then
+        bottomBoxLines = display.newLine(graph_W, _HEnd,_WEnd, _HEnd);
+        bottomBoxLines:setStrokeColor( 1, 0, 0, 1 ); bottomBoxLines.strokeWidth = 3;
     end
     boxLines = display.newLine(graph_W, second_H + (XLineLocation),_WEnd, second_H + (XLineLocation));
     boxLines:setStrokeColor( 0, 0, 0, 0.3 ); boxLines.strokeWidth = 2;
-    XLineLocation = XLineLocation + 45
+    XLineLocation = XLineLocation + 33.8
 end
 
---display.newText({text = tostring(i), align = textAlign, x = gridX + cellSize / 2, y = gridY + cellSize * ((gridSplits + (paddingCells * 2) - 1) - i), width = cellSize, height = cellSize, font = "Arial", fontSize = fontSize})
 -- numbers text -- place numbers code here
 --X line
 local XNumberLocation = 0;
-for textnum = 3, XnubmerLine, -1 do
-    algorithmDisplay = display.newText(textnum,graph_W ,second_H + (XNumberLocation),"Arial", 28): setFillColor(0)
-    XNumberLocation = XNumberLocation + 90
+for textnum = 8, -8, -1 do
+    XNumDisplay = display.newText(textnum,  graph_W-10 ,second_H + (XNumberLocation),"Arial", 18): setFillColor(0)
+    XNumberLocation = XNumberLocation + 33.8
 end
 -- Y line
-------------------------------------------------------------------------------------------- dot on graph
--- palce dot plot code here
-
-
+local YNumberLocation = 0;
+for textnum = 0, 10, 1 do
+    XNumDisplay = display.newText(textnum, graph_W + (YNumberLocation), third_H- 50,"Arial", 18): setFillColor(0)
+    YNumberLocation = YNumberLocation + 45
+end
 ------------------------------------------------------------------------------------------- Make Group
 -- make groups
 local helpGroup = display.newGroup()
+
+-- for default graph dot
+local defaultGraphGroup = display.newGroup()
+-- for powerUp graph dot
+local powerUpGraphGroup = display.newGroup()
+-- for lessMore graph dot
+local lessMoreGraphGroup = display.newGroup()
+-- for logit graph dot
+local logitGraphGroup = display.newGroup()
+------------------------------------------------------------------------------------------- dot on graph
+-- palce dot plot code here
+-- creaet zero poin  for x and y
+local bZeroX = graph_W+45;
+local mZeroX = graph_W+45;
+local zZeroX = graph_W+45;
+local bZeroY = (_HEnd+1);
+local mZeroY = (_HEnd+1);
+local zZeroY = (_HEnd+1);
+
+pointCounter = 1
+if (choice == 0) then
+    for num = 1,#CapturedLine do
+        if CapturedLine[pointCounter].groupType == 'M' then
+            mPoint = display.newCircle((mZeroX) + CapturedLine[pointCounter].yAxisNum,(mZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
+            mPoint:setFillColor(1,0,0,1)
+            mZeroX = mZeroX + 44
+
+        elseif CapturedLine[pointCounter].groupType == 'Z' then
+            zPoint = display.newCircle((zZeroX) + CapturedLine[pointCounter].yAxisNum,(zZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
+            zPoint:setFillColor(0,1,0,1)
+            zZeroX = zZeroX + 44
+        
+        elseif CapturedLine[pointCounter].groupType =='B' then
+            bPoint = display.newCircle((bZeroX) + CapturedLine[pointCounter].yAxisNum,(bZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
+            bPoint:setFillColor(0,0,1,1)
+            bZeroX = bZeroX + 44
+            print(pointCounter..' '..CapturedLine[pointCounter].xAxisNum)
+        end
+        pointCounter = pointCounter + 1
+    end
+    print(choice)
+end
+
+defaultGraphGroup:insert(mPoint); defaultGraphGroup:insert(zPoint); defaultGraphGroup:insert(bPoint);
+helpGroup.alpha = 0;
 ------------------------------------------------------------------------------------------- help text box info
 second_H = second_H +25;
 local DisplayHelpText = display.newText(HelpTextInfo, _W + 190, second_H +25, native.systemFont, 25);
@@ -123,7 +215,7 @@ DisplayHelpText:setFillColor(1,0,0)
 second_H = second_H +165;
 
 -- create text box
-local helptextBox = display.newRect(display.contentCenterX, second_H + 80,display.contentWidth-30,display.contentHeight*1.08);
+local helptextBox = display.newRect(display.contentCenterX, second_H + 80,display.contentWidth-10,display.contentHeight+100)
 helptextBox:setFillColor(1,1,1,1)
 
 helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
@@ -171,7 +263,7 @@ end
 
 --------------- Upload data
 --Function to handle UploadFile button events, this will want to upload a file into the project resources, and read in the data
-function UploadFileButtonEvent(event)
+function ResetButtonEvent(event)
     
     if ("ended" == event.phase) then
         local path = system.pathForFile("data.csv", system.ResorceDirectory)
@@ -215,13 +307,22 @@ function ApplyButtonEvent(event)
     if ("ended" == event.phase) then
         if (choice == 1) then
             print( algorithmList[choice].." algorithm applied")
-            --call the logX function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+            end
         elseif (choice == 2) then
             print( algorithmList[choice].." algorithm applied")
-            --call the logY function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..lessMoreAlgorithm(CapturedLine[index].xAxisNum))
+            end
         elseif (choice == 3) then
             print( algorithmList[choice].." algorithm applied")
-            --call the other function
+            print("------------------------------")
+            for index = 1, #CapturedLine do
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
+            end
         end
     end
 end
@@ -299,7 +400,7 @@ local buttonUpload = widget.newButton(
         label = "Reset",
         font = "Arial",
         fontSize = 30,
-        onEvent =  UploadFileButtonEvent,
+        onEvent =  ResetButtonEvent,
         shape = "roundedRect",
         width = 100,
         height = 65,
