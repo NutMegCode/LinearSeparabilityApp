@@ -24,6 +24,7 @@ local path = system.pathForFile("data.csv", system.ResorceDirectory)
         -- Close the file handle
         io.close( file )
     end
+
     file = nil
     -- Make total variable max of CapturedLine table
     local total = table.maxn(CapturedLine)
@@ -33,7 +34,7 @@ local path = system.pathForFile("data.csv", system.ResorceDirectory)
         print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
         counter = counter + 1
     end
-
+    
 -- require things
 local widget = require( "widget" ) -- require widget
 
@@ -147,14 +148,14 @@ for num = 1, YnumberCounter do
     XLineLocation = XLineLocation + 33.8
 end
 
--- numbers text -- place numbers code here
---X line
+-- numbers text
+--X line text
 local XNumberLocation = 0;
 for textnum = 8, -8, -1 do
     XNumDisplay = display.newText(textnum,  graph_W-10 ,second_H + (XNumberLocation),"Arial", 18): setFillColor(0)
     XNumberLocation = XNumberLocation + 33.8
 end
--- Y line
+-- Y line text
 local YNumberLocation = 0;
 for textnum = 0, 10, 1 do
     XNumDisplay = display.newText(textnum, graph_W + (YNumberLocation), third_H- 50,"Arial", 18): setFillColor(0)
@@ -172,42 +173,6 @@ local powerUpGraphGroup = display.newGroup()
 local lessMoreGraphGroup = display.newGroup()
 -- for logit graph dot
 local logitGraphGroup = display.newGroup()
-------------------------------------------------------------------------------------------- dot on graph
--- palce dot plot code here
--- creaet zero poin  for x and y
-local bZeroX = graph_W+45;
-local mZeroX = graph_W+45;
-local zZeroX = graph_W+45;
-local bZeroY = (_HEnd+1);
-local mZeroY = (_HEnd+1);
-local zZeroY = (_HEnd+1);
-
-pointCounter = 1
-if (choice == 0) then
-    for num = 1,#CapturedLine do
-        if CapturedLine[pointCounter].groupType == 'M' then
-            mPoint = display.newCircle((mZeroX) + CapturedLine[pointCounter].yAxisNum,(mZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
-            mPoint:setFillColor(1,0,0,1)
-            mZeroX = mZeroX + 44
-
-        elseif CapturedLine[pointCounter].groupType == 'Z' then
-            zPoint = display.newCircle((zZeroX) + CapturedLine[pointCounter].yAxisNum,(zZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
-            zPoint:setFillColor(0,1,0,1)
-            zZeroX = zZeroX + 44
-        
-        elseif CapturedLine[pointCounter].groupType =='B' then
-            bPoint = display.newCircle((bZeroX) + CapturedLine[pointCounter].yAxisNum,(bZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum), 5)
-            bPoint:setFillColor(0,0,1,1)
-            bZeroX = bZeroX + 44
-            print(pointCounter..' '..CapturedLine[pointCounter].xAxisNum)
-        end
-        pointCounter = pointCounter + 1
-    end
-    print(choice)
-end
-
-defaultGraphGroup:insert(mPoint); defaultGraphGroup:insert(zPoint); defaultGraphGroup:insert(bPoint);
-helpGroup.alpha = 0;
 ------------------------------------------------------------------------------------------- help text box info
 second_H = second_H +25;
 local DisplayHelpText = display.newText(HelpTextInfo, _W + 190, second_H +25, native.systemFont, 25);
@@ -220,6 +185,42 @@ helptextBox:setFillColor(1,1,1,1)
 
 helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
 helpGroup.alpha = 0;
+
+
+------------------------------------------------------------------------------------------- dot on graph
+-- create dots
+
+-- palce dot plot code here
+-- creaet zero poin  for x and y
+local bZeroX = graph_W+45;
+local mZeroX = graph_W+45;
+local zZeroX = graph_W+45;
+local bZeroY = (_HEnd+1);
+local mZeroY = (_HEnd+1);
+local zZeroY = (_HEnd+1);
+
+-- default point dots
+local pointCounter = 1
+if (choice == 0) then
+    --loop through captureline table
+    for num = 1,#CapturedLine do
+        -- if groupType == B display dots in B coordinates
+        if CapturedLine[pointCounter].groupType =='B' then
+            bPoint = display.newImage( defaultGraphGroup,'Images/Blue.png', system.ResorceDirectory); bPoint:scale(0.013,0.013); bPoint:translate((bZeroX) + CapturedLine[pointCounter].yAxisNum,(bZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum))
+            bZeroX = bZeroX + 44
+        -- elseif groupType == M display dots in M coordinates
+        elseif CapturedLine[pointCounter].groupType == 'M' then
+            rPoint = display.newImage( defaultGraphGroup,'Images/Red.png', system.ResorceDirectory); rPoint:scale(0.013,0.013); rPoint:translate((mZeroX) + CapturedLine[pointCounter].yAxisNum,(mZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum))
+            mZeroX = mZeroX + 44
+        -- elseif groupType == Z display dots in Z coordinates
+        elseif CapturedLine[pointCounter].groupType == 'Z' then
+            zPoint = display.newImage( defaultGraphGroup,'Images/Green.png', system.ResorceDirectory); zPoint:scale(0.013,0.013); zPoint:translate((zZeroX) + CapturedLine[pointCounter].yAxisNum,(zZeroY -33.8 *8) + ( 33.8 * -CapturedLine[pointCounter].xAxisNum))
+            zZeroX = zZeroX + 44
+        end
+        pointCounter = pointCounter + 1
+    end
+end
+defaultGraphGroup.alpha = 1;
 
 ------------------------------------------------------------------------------------------- create buttons
 --------------- Change Algorithm left
@@ -255,73 +256,106 @@ end
 --Function to handle AboutApp button events, this will need two different phases, one two open the about, and one to close it again
 function AboutAppButtonEvent(event)
     if ( event.numTaps == 1 ) then
-        helpGroup.alpha = 1
+        helpGroup.alpha = 1; defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
     elseif ( event.numTaps == 2 ) then
-        helpGroup.alpha = 0
+        helpGroup.alpha = 0; defaultGraphGroup.alpha = 1; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
     end  
 end
 
 --------------- Upload data
 --Function to handle UploadFile button events, this will want to upload a file into the project resources, and read in the data
 function ResetButtonEvent(event)
-    
-    if ("ended" == event.phase) then
-        local path = system.pathForFile("data.csv", system.ResorceDirectory)
-        -- Create empty table
-        local CapturedLine = {}
-        -- Open the file handle
-        local file, errorString = io.open( path, "r")
-
-        if not file then
-            -- Error occured; output cause
-            print("Error: " .. errorString)
-        else
-            -- Else capture every element seperately in each line
-            local counter = 1
-            for line in file:lines() do
-                local yAxisChar, xAxisChar, groupTypeChar = line:match("([^Y]*),([^X]*),([^G]*)")
-                CapturedLine[counter] = {groupType = groupTypeChar, yAxisNum = tonumber(yAxisChar), xAxisNum = tonumber(xAxisChar), }
-                counter = counter+1
-                algorithmDisplay.text = "Data Reset"
-            end
-            -- Close the file handle
-            io.close( file )
-        end
-
-        file = nil
-        -- Make total variable max of CapturedLine table
-        local total = table.maxn(CapturedLine)
-        local counter = 1
-        -- Make loop that prints each element in all lines of CapturedLine table
-        for num = 1, total, 1 do
-            print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
-            counter = counter + 1
-        end
-    end
+    defaultGraphGroup.alpha = 1; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
 end
 
 --------------- Apply alogrithm on data
 --Function to handle Submit button events,  this will want to apply the desired algorithm to the supplies data, and display the results on screen
 function ApplyButtonEvent(event)
  
-    if ("ended" == event.phase) then
+-- palce dot plot code here
+-- xerop point for powerUp
+    local cbZeroX = graph_W+45;
+    local cmZeroX = graph_W+45;
+    local czZeroX = graph_W+45;
+    local cbZeroY = (_HEnd+1);
+    local cmZeroY = (_HEnd+1);
+    local czZeroY = (_HEnd+1);
+
+
+    if ("ended" == event.phase) then    
         if (choice == 1) then
+            -- if user choose powerUpAlgorithm
+            defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 1;
             print( algorithmList[choice].." algorithm applied")
             print("------------------------------")
+            -- look through captureline table
             for index = 1, #CapturedLine do
+                -- apply powerUpAlgorithm to xAxisNum
+                powerUpX = powerUpAlgorithm(CapturedLine[index].xAxisNum)
                 print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+                -- if groupType == B display dots in B coordinates
+                if CapturedLine[index].groupType =='B' then
+                    cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.016,0.016); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    cbZeroX = cbZeroX + 44
+                -- elseif groupType == M display dots in M coordinates
+                elseif CapturedLine[index].groupType == 'M' then
+                    crPoint = display.newImage( powerUpGraphGroup,'Images/Red.png', system.ResorceDirectory); crPoint:scale(0.012,0.012); crPoint:translate((cmZeroX) + CapturedLine[index].yAxisNum,(cmZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                   cmZeroX = cmZeroX + 44
+                -- elseif groupType == Z display dots in Z coordinates
+                elseif CapturedLine[index].groupType == 'Z' then
+                    czPoint = display.newImage( powerUpGraphGroup,'Images/Green.png', system.ResorceDirectory); czPoint:scale(0.012,0.012); czPoint:translate((czZeroX) + CapturedLine[index].yAxisNum,(czZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    czZeroX = czZeroX + 44
+                
+                end
             end
+    
         elseif (choice == 2) then
+            -- if user choose lessMoreAlgorithm
+            defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 1; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
             print( algorithmList[choice].." algorithm applied")
             print("------------------------------")
             for index = 1, #CapturedLine do
-                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..lessMoreAlgorithm(CapturedLine[index].xAxisNum))
+                -- apply lessMoreAlgorithm to xAxisNum
+                powerUpX = lessMoreAlgorithm(CapturedLine[index].xAxisNum)
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+                -- if groupType == B display dots in B coordinates
+                if CapturedLine[index].groupType =='B' then
+                    cbPoint = display.newImage( lessMoreGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.012,0.012); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    cbZeroX = cbZeroX + 44
+                -- elseif groupType == M display dots in M coordinates
+                elseif CapturedLine[index].groupType == 'M' then
+                    crPoint = display.newImage( lessMoreGraphGroup,'Images/Red.png', system.ResorceDirectory); crPoint:scale(0.016,0.016); crPoint:translate((cmZeroX) + CapturedLine[index].yAxisNum,(cmZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                   cmZeroX = cmZeroX + 44
+                -- elseif groupType == Z display dots in Z coordinates
+                elseif CapturedLine[index].groupType == 'Z' then
+                    czPoint = display.newImage( lessMoreGraphGroup,'Images/Green.png', system.ResorceDirectory); czPoint:scale(0.012,0.012); czPoint:translate((czZeroX) + CapturedLine[index].yAxisNum,(czZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    czZeroX = czZeroX + 44
+                
+                end
             end
+
         elseif (choice == 3) then
+            -- if user choose logitAlgorithm
+            defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 1; powerUpGraphGroup.alpha = 0;
             print( algorithmList[choice].." algorithm applied")
             print("------------------------------")
             for index = 1, #CapturedLine do
+                -- apply logitAlgorithm to xAxisNum
+                powerUpX = logitAlgorithm(CapturedLine[index].xAxisNum)
                 print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
+                -- if groupType == B display dots in B coordinates
+                if CapturedLine[index].groupType =='B' then
+                    cbPoint = display.newImage( logitGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.012,0.012); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    cbZeroX = cbZeroX + 44
+                -- elseif groupType == M display dots in M coordinates
+                elseif CapturedLine[index].groupType == 'M' then
+                    crPoint = display.newImage( logitGraphGroup,'Images/Red.png', system.ResorceDirectory); crPoint:scale(0.016,0.016); crPoint:translate((cmZeroX) + CapturedLine[index].yAxisNum,(cmZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                   cmZeroX = cmZeroX + 44
+                -- elseif groupType == Z display dots in Z coordinates
+                elseif CapturedLine[index].groupType == 'Z' then
+                    czPoint = display.newImage( logitGraphGroup,'Images/Green.png', system.ResorceDirectory); czPoint:scale(0.012,0.012); czPoint:translate((czZeroX) + CapturedLine[index].yAxisNum,(czZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    czZeroX = czZeroX + 44
+                end
             end
         end
     end
