@@ -29,7 +29,7 @@ local path = system.pathForFile("data.csv", system.ResorceDirectory)
     -- Make total variable max of CapturedLine table
     local total = table.maxn(CapturedLine)
     local counter = 1
-    -- Make loop that prints each element in all lines of CapturedLine table
+    -- Make loop that prints each element in all lines of CapturedLine table in console
     for num = 1, total, 1 do
         print(CapturedLine[counter].groupType..','..CapturedLine[counter].yAxisNum ..', '..CapturedLine[counter].xAxisNum)
         counter = counter + 1
@@ -55,8 +55,9 @@ local backGround = display.newRect(display.contentCenterX, display.contentCenter
 backGround.alpha = 1;
 
 -- info here will go into help text box
-local HelpTextInfo = ("This is some text\nThis is some more text\nWhat the hell is this fucking assignment ")
-
+local HelpTextInfo1 = ("Instructions")
+local HelpTextInfo2 = ("- Tap the 'Help' button once to open it and twice to close it.\n\n- The '<<' and '>> buttons are used to change algorithm types.\n\n- Tap the 'Apply' button to apply a chosen algorithm.\n\n- Tap the 'Reset' button to reset the graph to the original.\n\n")
+local HelpTextInfo3 = (" Represents Benign attacks\n\n Represents Malicious attacks\n\n Represents Zeroday attacks")
 ------------------------------------------------------------------------------------------- The Algorithms
 algorithmList = {"powerUp", "lessMore", "logit"}
 local choice = 0;
@@ -113,9 +114,9 @@ scrollAlgorithmDisplay = display.newText("Default",display.contentCenterX ,third
 ------------------------------------------------------------------------------------------- display current selected algorithm name
 --display.newRoundedRect( [parent,] x, y, width, height, cornerRadius )
 
-local currentAlgorithm = display.newRoundedRect( display.contentCenterX, _H, 452, 53, 4); currentAlgorithm:setFillColor(0.8);
-local selectedAlgorithm = display.newRect( display.contentCenterX-50, _H, 250, 53); selectedAlgorithm:setFillColor(0.6);
-local selectedAlgorithmDisplay = display.newText("Current Algorithm:",display.contentCenterX -30,_H ,"Arial", 23); selectedAlgorithmDisplay: setFillColor(0,0,0,1)
+local currentAlgorithm = display.newRoundedRect( display.contentCenterX, _H, 470, 53, 4); currentAlgorithm:setFillColor(0.8);
+local selectedAlgorithm = display.newRect( display.contentCenterX-50, _H, 270, 53); selectedAlgorithm:setFillColor(0.6);
+local selectedAlgorithmDisplay = display.newText("Current Algorithm:",display.contentCenterX -20,_H ,"Arial", 23); selectedAlgorithmDisplay: setFillColor(0,0,0,1)
 local currentAlgorithmDisplay = display.newText("Default",display.contentCenterX + 150,_H ,"Arial", 23); currentAlgorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- graph
@@ -169,8 +170,6 @@ for textnum = 0, 10, 1 do
     YNumberLocation = YNumberLocation + 45
 end
 ------------------------------------------------------------------------------------------- Make Group
--- make info group
-local helpGroup = display.newGroup()
 
 -- for default graph dotgroup
 local defaultGraphGroup = display.newGroup()
@@ -180,17 +179,31 @@ local powerUpGraphGroup = display.newGroup()
 local lessMoreGraphGroup = display.newGroup()
 -- for logit graph dotgroup
 local logitGraphGroup = display.newGroup()
+-- make info group
+local helpGroup = display.newGroup()
 ------------------------------------------------------------------------------------------- help text box info
 second_H = second_H +25;
-local DisplayHelpText = display.newText(HelpTextInfo, _W + 190, second_H +25, native.systemFont, 25);
-DisplayHelpText:setFillColor(1,0,0)
+local displayHelpText1 = display.newText(HelpTextInfo1, _W + 30, second_H-10, native.systemFontBold, 25);displayHelpText1:setFillColor(1,0,0)-- instruction
+local underline = display.newLine(_W - 42, second_H + 5,_W + 99, second_H + 5);underline.strokeWidth = 3; underline:setStrokeColor(1,0,0,1)--underline
+local displayHelpText2 = display.newText(HelpTextInfo2, _W + 170, second_H+95, native.systemFont, 16);displayHelpText2:setFillColor(0,0,0) --text
+-- helptextdot is the dots displayed
+local bHelpTextDot = display.newImage('Images/Blue.png', system.ResorceDirectory); bHelpTextDot:scale(0.013,0.013); bHelpTextDot:translate(_W - 40,second_H + 173)
+local mHelpTextDot = display.newImage('Images/Red.png', system.ResorceDirectory); mHelpTextDot:scale(0.013,0.013); mHelpTextDot:translate(_W - 40,second_H + 210)
+local zHelpTextDot = display.newImage('Images/Green.png', system.ResorceDirectory); zHelpTextDot:scale(0.013,0.013); zHelpTextDot:translate(_W - 40,second_H + 246)
+
+local displayHelpText3 = display.newText(HelpTextInfo3, _W + 80, second_H+210, native.systemFont, 16);displayHelpText3:setFillColor(0,0,0) --text
+
+
+
+
 second_H = second_H +165;
 
 -- create text box
 local helptextBox = display.newRect(display.contentCenterX, second_H + 90,display.contentWidth-10,display.contentHeight+80)
 helptextBox:setFillColor(1,1,1,1)
 
-helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
+helpGroup:insert(helptextBox); helpGroup:insert(displayHelpText1);  helpGroup:insert(displayHelpText2); helpGroup:insert(displayHelpText3); helpGroup:insert(underline); 
+helpGroup:insert(bHelpTextDot); helpGroup:insert(mHelpTextDot); helpGroup:insert(zHelpTextDot);   
 helpGroup.alpha = 0;
 
 
@@ -227,7 +240,7 @@ if (choice == 0) then
         pointCounter = pointCounter + 1
     end
 end
-defaultGraphGroup.alpha = 1;
+
 
 ------------------------------------------------------------------------------------------- create buttons
 --------------- Change Algorithm left
@@ -259,13 +272,13 @@ function AlgorithmRightButtonEvent(event)
     end
 end
 
---------------- About program
---Function to handle AboutApp button events, this will need two different phases, one two open the about, and one to close it again
-function AboutAppButtonEvent(event)
+--------------- Help program
+--Function to handle HelpApp button events, this will need two different phases, one two open the help, and one to close it again
+function HelpAppButtonEvent(event)
     if ( event.numTaps == 1 ) then
-        helpGroup.alpha = 1; defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
+        helpGroup.alpha = 1; --display help text
     elseif ( event.numTaps == 2 ) then
-        helpGroup.alpha = 0; defaultGraphGroup.alpha = 1; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
+        helpGroup.alpha = 0; --hide help text
     end  
 end
 
@@ -306,15 +319,15 @@ function ApplyButtonEvent(event)
                 print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum)) -- displays values of data.csv after algorithm applied
                 -- if groupType == B display dots in B coordinates
                 if CapturedLine[index].groupType =='B' then
-                    cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.016,0.016); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.017,0.017); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
                     cbZeroX = cbZeroX + 44
                 -- elseif groupType == M display dots in M coordinates
                 elseif CapturedLine[index].groupType == 'M' then
-                    crPoint = display.newImage( powerUpGraphGroup,'Images/Red.png', system.ResorceDirectory); crPoint:scale(0.012,0.012); crPoint:translate((cmZeroX) + CapturedLine[index].yAxisNum,(cmZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    crPoint = display.newImage( powerUpGraphGroup,'Images/Red.png', system.ResorceDirectory); crPoint:scale(0.014,0.014); crPoint:translate((cmZeroX) + CapturedLine[index].yAxisNum,(cmZeroY -33.8 *8) + ( 33.8 * -powerUpX))
                    cmZeroX = cmZeroX + 44
                 -- elseif groupType == Z display dots in Z coordinates
                 elseif CapturedLine[index].groupType == 'Z' then
-                    czPoint = display.newImage( powerUpGraphGroup,'Images/Green.png', system.ResorceDirectory); czPoint:scale(0.012,0.012); czPoint:translate((czZeroX) + CapturedLine[index].yAxisNum,(czZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    czPoint = display.newImage( powerUpGraphGroup,'Images/Green.png', system.ResorceDirectory); czPoint:scale(0.01,0.01); czPoint:translate((czZeroX) + CapturedLine[index].yAxisNum,(czZeroY -33.8 *8) + ( 33.8 * -powerUpX))
                     czZeroX = czZeroX + 44
                 
                 end
@@ -415,14 +428,14 @@ local buttonRight = widget.newButton(
     }
 )
 
--- Create the about button widget
-local buttonAbout = widget.newButton(
+-- Create the help button widget
+local buttonHelp = widget.newButton(
     {
-        id = "babout",
+        id = "bhelp",
         label = "Help",
         font = "Arial",
         fontSize = 30,
-        onEvent = AboutAppButtonEvent,
+        onEvent = HelpAppButtonEvent,
         shape = "roundedRect",
         width = 100,
         height = 50,
@@ -470,9 +483,9 @@ local buttonApply = widget.newButton(
 )
 
 ------------------------------------------------------------------------------------------- button placement
--- About button placement and listener
-buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
-buttonAbout.x = _W ; buttonAbout.y = _H;
+-- Help button placement and listener
+buttonHelp:addEventListener( "tap", HelpAppButtonEvent )
+buttonHelp.x = _W ; buttonHelp.y = _H;
 
 -- Left button placement
 buttonLeft.x =  _W ; buttonLeft.y = third_H;
