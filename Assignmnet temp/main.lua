@@ -105,11 +105,18 @@ end
 --highest value = 8, lowest value -8
 
 
+------------------------------------------------------------------------------------------- display change algorithm name
 
-------------------------------------------------------------------------------------------- display algorithm name
+local scrollName = display.newRect( display.contentCenterX, third_H, 400, 55); scrollName:setFillColor(0.8);
+scrollAlgorithmDisplay = display.newText("Default",display.contentCenterX ,third_H ,"Arial", 28); scrollAlgorithmDisplay: setFillColor(0,0,0,1)
 
-local scrollRect = display.newRect( display.contentCenterX, third_H, 400, 68); scrollRect:setFillColor(0.8);
-algorithmDisplay = display.newText("Select Algorithm",display.contentCenterX ,third_H ,"Arial", 28); algorithmDisplay: setFillColor(0,0,0,1)
+------------------------------------------------------------------------------------------- display current selected algorithm name
+--display.newRoundedRect( [parent,] x, y, width, height, cornerRadius )
+
+local currentAlgorithm = display.newRoundedRect( display.contentCenterX, _H, 452, 53, 4); currentAlgorithm:setFillColor(0.8);
+local selectedAlgorithm = display.newRect( display.contentCenterX-50, _H, 250, 53); selectedAlgorithm:setFillColor(0.6);
+local selectedAlgorithmDisplay = display.newText("Current Algorithm:",display.contentCenterX -30,_H ,"Arial", 23); selectedAlgorithmDisplay: setFillColor(0,0,0,1)
+local currentAlgorithmDisplay = display.newText("Default",display.contentCenterX + 150,_H ,"Arial", 23); currentAlgorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- graph
 -- create graph
@@ -162,16 +169,16 @@ for textnum = 0, 10, 1 do
     YNumberLocation = YNumberLocation + 45
 end
 ------------------------------------------------------------------------------------------- Make Group
--- make groups
+-- make info group
 local helpGroup = display.newGroup()
 
--- for default graph dot
+-- for default graph dotgroup
 local defaultGraphGroup = display.newGroup()
--- for powerUp graph dot
+-- for powerUp graph dotgroup
 local powerUpGraphGroup = display.newGroup()
--- for lessMore graph dot
+-- for lessMore graph dotgroup
 local lessMoreGraphGroup = display.newGroup()
--- for logit graph dot
+-- for logit graph dotgroup
 local logitGraphGroup = display.newGroup()
 ------------------------------------------------------------------------------------------- help text box info
 second_H = second_H +25;
@@ -180,7 +187,7 @@ DisplayHelpText:setFillColor(1,0,0)
 second_H = second_H +165;
 
 -- create text box
-local helptextBox = display.newRect(display.contentCenterX, second_H + 80,display.contentWidth-10,display.contentHeight+100)
+local helptextBox = display.newRect(display.contentCenterX, second_H + 90,display.contentWidth-10,display.contentHeight+80)
 helptextBox:setFillColor(1,1,1,1)
 
 helpGroup:insert(helptextBox); helpGroup:insert(DisplayHelpText); 
@@ -192,12 +199,12 @@ helpGroup.alpha = 0;
 
 -- palce dot plot code here
 -- creaet zero poin  for x and y
-local bZeroX = graph_W+45;
-local mZeroX = graph_W+45;
-local zZeroX = graph_W+45;
-local bZeroY = (_HEnd+1);
-local mZeroY = (_HEnd+1);
-local zZeroY = (_HEnd+1);
+local bZeroX = graph_W+44; -- 44 is the values between each horizontal line
+local mZeroX = graph_W+44;
+local zZeroX = graph_W+44;
+local bZeroY = (_HEnd+0.5); -- added 0.5 to make it more accurate, it was slightly higher then what i wanted
+local mZeroY = (_HEnd+0.5);
+local zZeroY = (_HEnd+0.5);
 
 -- default point dots
 local pointCounter = 1
@@ -233,7 +240,7 @@ function AlgorithmLeftButtonEvent(event)
             choice = #algorithmList
         end        
         print(algorithmList[choice].." selected") -- used as a test
-        algorithmDisplay.text = algorithmList[choice]
+        scrollAlgorithmDisplay.text = algorithmList[choice]
     end
 end
 
@@ -247,7 +254,7 @@ function AlgorithmRightButtonEvent(event)
             choice = 1
         end        
         print(algorithmList[choice].." selected")  -- used as a test
-        algorithmDisplay.text = algorithmList[choice]
+        scrollAlgorithmDisplay.text = algorithmList[choice]
         --apply the actual algorithm
     end
 end
@@ -266,21 +273,23 @@ end
 --Function to handle UploadFile button events, this will want to upload a file into the project resources, and read in the data
 function ResetButtonEvent(event)
     defaultGraphGroup.alpha = 1; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
+	currentAlgorithmDisplay.text = 'Default'
+	scrollAlgorithmDisplay.text = 'Default'
 end
 
 --------------- Apply alogrithm on data
 --Function to handle Submit button events,  this will want to apply the desired algorithm to the supplies data, and display the results on screen
 function ApplyButtonEvent(event)
- 
+
 -- palce dot plot code here
 -- xerop point for powerUp
-    local cbZeroX = graph_W+45;
-    local cmZeroX = graph_W+45;
-    local czZeroX = graph_W+45;
-    local cbZeroY = (_HEnd+1);
-    local cmZeroY = (_HEnd+1);
-    local czZeroY = (_HEnd+1);
-
+    local cbZeroX = graph_W+44;
+    local cmZeroX = graph_W+44;
+    local czZeroX = graph_W+44;
+    local cbZeroY = (_HEnd+0.5);
+    local cmZeroY = (_HEnd+0.5);
+    local czZeroY = (_HEnd+0.5);
+	
 
     if ("ended" == event.phase) then    
         if (choice == 1) then
@@ -290,9 +299,11 @@ function ApplyButtonEvent(event)
             print("------------------------------")
             -- look through captureline table
             for index = 1, #CapturedLine do
+				-- change currentAlgorithmDisplay text to selected algoritm
+				currentAlgorithmDisplay.text = algorithmList[choice]
                 -- apply powerUpAlgorithm to xAxisNum
                 powerUpX = powerUpAlgorithm(CapturedLine[index].xAxisNum)
-                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum)) -- displays values of data.csv after algorithm applied
                 -- if groupType == B display dots in B coordinates
                 if CapturedLine[index].groupType =='B' then
                     cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.016,0.016); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
@@ -310,6 +321,8 @@ function ApplyButtonEvent(event)
             end
     
         elseif (choice == 2) then
+			-- change currentAlgorithmDisplay text to selected algoritm
+			currentAlgorithmDisplay.text = algorithmList[choice]
             -- if user choose lessMoreAlgorithm
             defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 1; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
             print( algorithmList[choice].." algorithm applied")
@@ -317,7 +330,7 @@ function ApplyButtonEvent(event)
             for index = 1, #CapturedLine do
                 -- apply lessMoreAlgorithm to xAxisNum
                 powerUpX = lessMoreAlgorithm(CapturedLine[index].xAxisNum)
-                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum))
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum)) -- displays values of data.csv after algorithm applied
                 -- if groupType == B display dots in B coordinates
                 if CapturedLine[index].groupType =='B' then
                     cbPoint = display.newImage( lessMoreGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.012,0.012); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
@@ -335,6 +348,8 @@ function ApplyButtonEvent(event)
             end
 
         elseif (choice == 3) then
+			-- change currentAlgorithmDisplay text to selected algoritm
+			currentAlgorithmDisplay.text = algorithmList[choice]
             -- if user choose logitAlgorithm
             defaultGraphGroup.alpha = 0; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 1; powerUpGraphGroup.alpha = 0;
             print( algorithmList[choice].." algorithm applied")
@@ -342,7 +357,7 @@ function ApplyButtonEvent(event)
             for index = 1, #CapturedLine do
                 -- apply logitAlgorithm to xAxisNum
                 powerUpX = logitAlgorithm(CapturedLine[index].xAxisNum)
-                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum))
+                print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..logitAlgorithm(CapturedLine[index].xAxisNum)) -- displays values of data.csv after algorithm applied
                 -- if groupType == B display dots in B coordinates
                 if CapturedLine[index].groupType =='B' then
                     cbPoint = display.newImage( logitGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.012,0.012); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
@@ -361,15 +376,6 @@ function ApplyButtonEvent(event)
     end
 end
 
---------------- Exit program
-function QuitButtonEvent(event)
- 
-    if ("ended" == event.phase) then
-        native.requestExit()
-        print( "The Quit Button was pressed")
-    end
-end
-
 ------------------------------------------------------------------------------------------- create button
 -- Create the left button widget
 local buttonLeft = widget.newButton(
@@ -381,7 +387,7 @@ local buttonLeft = widget.newButton(
         onEvent = AlgorithmLeftButtonEvent,
         shape = "roundedRect",
         width = 100,
-        height = 65,
+        height = 50,
         cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
@@ -400,7 +406,7 @@ local buttonRight = widget.newButton(
         onEvent = AlgorithmRightButtonEvent,
         shape = "roundedRect",
         width = 100,
-        height = 65,
+        height = 50,
         cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = { default={0,1,1,1}, over={0.8,0.8,1,1} },
@@ -413,13 +419,13 @@ local buttonRight = widget.newButton(
 local buttonAbout = widget.newButton(
     {
         id = "babout",
-        label = "?",
+        label = "Help",
         font = "Arial",
         fontSize = 30,
         onEvent = AboutAppButtonEvent,
         shape = "roundedRect",
         width = 100,
-        height = 65,
+        height = 50,
         cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
@@ -428,7 +434,7 @@ local buttonAbout = widget.newButton(
 )
 
 -- Create the upload button widget
-local buttonUpload = widget.newButton(
+local buttonReset = widget.newButton(
     {
         id = "breset",
         label = "Reset",
@@ -437,7 +443,7 @@ local buttonUpload = widget.newButton(
         onEvent =  ResetButtonEvent,
         shape = "roundedRect",
         width = 100,
-        height = 65,
+        height = 50,
         cornerRadius = 4,
         fillColor = { default={0,1,1,1}, over={0,0.8,0.8,1} },
         strokeColor = {  default={0,1,1,1}, over={0.8,0.8,1,1} },
@@ -455,28 +461,10 @@ local buttonApply = widget.newButton(
         onEvent = ApplyButtonEvent,
         shape = "roundedRect",
         width = 100,
-        height = 65,
+        height = 50,
         cornerRadius = 4,
         fillColor = { default={0,1,0,1}, over={0,0.8,0,1} },
         strokeColor = { default={0,1,0,1}, over={0.8,0.8,1,1} },
-        strokeWidth = 4
-    }
-)
-
--- Create the exit button widget
-local buttonExit = widget.newButton(
-    {
-        id = "bexit",
-        label = "X",
-        font = "Arial",
-        fontSize = 30,
-        onEvent = QuitButtonEvent,
-        shape = "roundedRect",
-        width = 100,
-        height = 65,
-        cornerRadius = 4,
-        fillColor = { default={1,0,0,1}, over={0.8,0,0,1} },
-        strokeColor = { default={1,0,0,1}, over={0.8,0.8,1,1} },
         strokeWidth = 4
     }
 )
@@ -486,9 +474,6 @@ local buttonExit = widget.newButton(
 buttonAbout:addEventListener( "tap", AboutAppButtonEvent )
 buttonAbout.x = _W ; buttonAbout.y = _H;
 
--- Exit button placement
-buttonExit.x = second_W; buttonExit.y = _H;
-
 -- Left button placement
 buttonLeft.x =  _W ; buttonLeft.y = third_H;
 
@@ -496,10 +481,10 @@ buttonLeft.x =  _W ; buttonLeft.y = third_H;
 buttonRight.x = second_W; buttonRight.y = third_H;
 
 -- Make lower button _H location
-third_H = third_H +85;
+third_H = third_H +70;
 
--- Upload button placement
-buttonUpload.x =  _W ; buttonUpload.y = third_H;
+-- Reset button placement
+buttonReset.x =  _W ; buttonReset.y = third_H;
 
 -- apply button placement
 buttonApply.x = second_W; buttonApply.y = third_H;
