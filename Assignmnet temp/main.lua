@@ -45,7 +45,7 @@ display.setStatusBar( display.HiddenStatusBar)
 local helpGroup = display.newGroup()
 
 -- Make the Y axis -- Make Graph _H -- Make third_H
-local _H = display.screenOriginY + 50; local second_H = _H  + 50; local third_H = _H +660
+local _H = display.screenOriginY + 80; local second_H = _H  + 50; local third_H = _H +660
 
 -- Make the X axis  -- Make second_W  
 local _W = display.screenOriginX + 65; graph_W = _W -40; local second_W = _W + 370; --exit_W = _W +250
@@ -56,7 +56,7 @@ backGround.alpha = 1;
 
 -- info here will go into help text box
 local HelpTextInfo1 = ("Instructions")
-local HelpTextInfo2 = ("- Tap the 'Help' button once to open it and twice to close it.\n\n- The '<<' and '>> buttons are used to change algorithm types.\n\n- Tap the 'Apply' button to apply a chosen algorithm.\n\n- Tap the 'Reset' button to reset the graph to the original.\n\n")
+local HelpTextInfo2 = ("- Tap the 'Help' button once to open it and twice to close it.\n\n- The '<<' and '>>' buttons are used to change algorithm types.\n\n- Tap the 'Apply' button to apply a chosen algorithm.\n\n- Tap the 'Reset' button to reset the graph to the original.\n\n")
 local HelpTextInfo3 = (" Represents Benign attacks\n\n Represents Malicious attacks\n\n Represents Zeroday attacks")
 ------------------------------------------------------------------------------------------- The Algorithms
 algorithmList = {"powerUp", "lessMore", "logit"}
@@ -108,7 +108,7 @@ end
 
 ------------------------------------------------------------------------------------------- display change algorithm name
 
-local scrollName = display.newRect( display.contentCenterX, third_H, 400, 55); scrollName:setFillColor(0.8);
+local scrollName = display.newRect( display.contentCenterX, third_H, 400, 54); scrollName:setFillColor(0.8);
 scrollAlgorithmDisplay = display.newText("Default",display.contentCenterX ,third_H ,"Arial", 28); scrollAlgorithmDisplay: setFillColor(0,0,0,1)
 
 ------------------------------------------------------------------------------------------- display current selected algorithm name
@@ -140,7 +140,6 @@ end
 
 -- X line
 local XLineLocation = 0;
-
 _WEnd = _W + 410;
 for num = 1, YnumberCounter do
     if num == 9 then
@@ -282,12 +281,13 @@ function HelpAppButtonEvent(event)
     end  
 end
 
---------------- Upload data
---Function to handle UploadFile button events, this will want to upload a file into the project resources, and read in the data
+--------------- reset data
+--Function to handle resetFile button events, this will want to reset a file into the project resources, and read in the data
 function ResetButtonEvent(event)
     defaultGraphGroup.alpha = 1; lessMoreGraphGroup.alpha = 0; logitGraphGroup.alpha = 0; powerUpGraphGroup.alpha = 0;
 	currentAlgorithmDisplay.text = 'Default'
-	scrollAlgorithmDisplay.text = 'Default'
+    scrollAlgorithmDisplay.text = 'Default'
+    choice = 0
 end
 
 --------------- Apply alogrithm on data
@@ -319,7 +319,7 @@ function ApplyButtonEvent(event)
                 print(CapturedLine[index].groupType..','..CapturedLine[index].yAxisNum ..', '..powerUpAlgorithm(CapturedLine[index].xAxisNum)) -- displays values of data.csv after algorithm applied
                 -- if groupType == B display dots in B coordinates
                 if CapturedLine[index].groupType =='B' then
-                    cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.017,0.017); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
+                    cbPoint = display.newImage( powerUpGraphGroup,'Images/Blue.png', system.ResorceDirectory); cbPoint:scale(0.019,0.019); cbPoint:translate((cbZeroX) + CapturedLine[index].yAxisNum,(cbZeroY -33.8 *8) + ( 33.8 * -powerUpX))
                     cbZeroX = cbZeroX + 44
                 -- elseif groupType == M display dots in M coordinates
                 elseif CapturedLine[index].groupType == 'M' then
@@ -446,7 +446,7 @@ local buttonHelp = widget.newButton(
     }
 )
 
--- Create the upload button widget
+-- Create the reset button widget
 local buttonReset = widget.newButton(
     {
         id = "breset",
